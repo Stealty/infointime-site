@@ -85,6 +85,25 @@ export async function buscarProdutos(opts: {
 }): Promise<{ itens: Produto[]; total: number }> {
   const porPagina = opts.porPagina ?? 24;
   const pagina = Math.max(1, opts.pagina ?? 1);
+  const termo = opts.busca?.trim();
+  if (termo) {
+    // Com busca: primeiro o que a busca da Bianca acha (relevancia, sinonimos,
+    // "sem fio"), depois o que so a busca por palavra acha. Pagina em memoria.
+    const [viaBianca, simples] = await Promise.all([
+      buscarComoBianca(termo, opts.categoria),
+      rpc<Produto[]>(
+        "it_site_catalogo",
+        { p_busca: termo, p_categoria: opts.categoria || null, p_limite: 300, p_offset: 0, p_codigos: null, p_ordem: "relevancia" },
+        CACHE_CATALOGO,
+      ).catch(() => [] as Produto[]),
+    ]);
+    const vistos = new Set<string>();
+    let todos = [...(viaBianca ?? []), ...simples].filter((p) => !vistos.has(p.codigo) && vistos.add(p.codigo));
+    if (opts.ordem === "menor_preco") todos = todos.sort((a, b) => a.preco - b.preco);
+    if (opts.ordem === "maior_preco") todos = todos.sort((a, b) => b.preco - a.preco);
+    const ini = (pagina - 1) * porPagina;
+    return { itens: todos.slice(ini, ini + porPagina), total: todos.length };
+  }
   try {
     const itens = await rpc<Produto[]>(
       "it_site_catalogo",
@@ -102,6 +121,45 @@ export async function buscarProdutos(opts: {
   } catch (e) {
     console.error(e);
     return { itens: [], total: 0 };
+  }
+}
+
+// Busca do site = mesma funcao da Bianca (it_buscar_produto): sinonimos, "sem fio",
+// erro de digitacao e relevancia. Ela devolve os codigos na ordem certa; os dados
+// de vitrine (categoria, foto, produtos ocultos) vem da it_site_catalogo.
+// Devolve null se a busca da Bianca falhar ou nao achar nada, e o site cai na
+// busca simples por palavra.
+async function buscarComoBianca(termo: string, categoria?: string): Promise<Produto[] | null> {
+  try {
+    const [pol] = await rpc<{ filiais: number[] | null; tabela: number; minimo: number; teto: number }[]>(
+      "it_site_politica",
+      {},
+      CACHE_CATALOGO,
+    );
+    if (!pol) return null;
+    const achados = await rpc<{ sku: string }[]>(
+      "it_buscar_produto",
+      {
+        p_termo: termo.slice(0, 80),
+        p_limite: 300,
+        p_filiais: pol.filiais,
+        p_tabela_preco: pol.tabela,
+        p_estoque_minimo: pol.minimo,
+        p_estoque_teto: pol.teto,
+      },
+      CACHE_CATALOGO,
+    );
+    const codigos = Array.from(new Set(achados.map((a) => String(a.sku))));
+    if (!codigos.length) return null;
+    const itens = await rpc<Produto[]>(
+      "it_site_catalogo",
+      { p_busca: null, p_categoria: categoria || null, p_limite: codigos.length, p_offset: 0, p_codigos: codigos, p_ordem: "relevancia" },
+      CACHE_CATALOGO,
+    );
+    return itens.length ? itens : null;
+  } catch (e) {
+    console.error(e);
+    return null;
   }
 }
 
