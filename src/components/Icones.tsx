@@ -110,3 +110,97 @@ export const IconeCaixa = ({ className = "size-10" }: P) => (
     <path d="m3 8 9 5 9-5M12 13v8" />
   </svg>
 );
+
+export const IconeGota = ({ className = "size-6" }: P) => (
+  <svg viewBox="0 0 24 24" className={className} {...base}>
+    <path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11Z" />
+  </svg>
+);
+
+export const IconeCabo = ({ className = "size-6" }: P) => (
+  <svg viewBox="0 0 24 24" className={className} {...base}>
+    <path d="M7 3v4M11 3v4M5 7h8v4a4 4 0 0 1-8 0V7ZM9 15v2a4 4 0 0 0 4 4h2a4 4 0 0 0 4-4V9" />
+  </svg>
+);
+
+export const IconeWifi = ({ className = "size-6" }: P) => (
+  <svg viewBox="0 0 24 24" className={className} {...base}>
+    <path d="M2 9a15 15 0 0 1 20 0M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0" />
+    <circle cx="12" cy="19.5" r="1" fill="currentColor" />
+  </svg>
+);
+
+export const IconeMouse = ({ className = "size-6" }: P) => (
+  <svg viewBox="0 0 24 24" className={className} {...base}>
+    <rect x="6" y="3" width="12" height="18" rx="6" />
+    <path d="M12 7v3" />
+  </svg>
+);
+
+export const IconeTeclado = ({ className = "size-6" }: P) => (
+  <svg viewBox="0 0 24 24" className={className} {...base}>
+    <rect x="2" y="6" width="20" height="12" rx="2" />
+    <path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10" />
+  </svg>
+);
+
+export const IconeFone = ({ className = "size-6" }: P) => (
+  <svg viewBox="0 0 24 24" className={className} {...base}>
+    <path d="M4 15v-3a8 8 0 0 1 16 0v3" />
+    <rect x="3" y="14" width="4" height="6" rx="1.5" />
+    <rect x="17" y="14" width="4" height="6" rx="1.5" />
+  </svg>
+);
+
+export const IconeChip = ({ className = "size-6" }: P) => (
+  <svg viewBox="0 0 24 24" className={className} {...base}>
+    <rect x="6" y="6" width="12" height="12" rx="2" />
+    <path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4" />
+  </svg>
+);
+
+export const IconeCaminhao = ({ className = "size-6" }: P) => (
+  <svg viewBox="0 0 24 24" className={className} {...base}>
+    <path d="M3 6h11v10H3zM14 9h4l3 3v4h-7" />
+    <circle cx="7" cy="17.5" r="1.8" />
+    <circle cx="17" cy="17.5" r="1.8" />
+  </svg>
+);
+
+export const IconeLoja = ({ className = "size-6" }: P) => (
+  <svg viewBox="0 0 24 24" className={className} {...base}>
+    <path d="M4 10v10h16V10M3 6l2-3h14l2 3v2a3 3 0 0 1-6 0 3 3 0 0 1-6 0 3 3 0 0 1-6 0V6Z" />
+    <path d="M10 20v-5h4v5" />
+  </svg>
+);
+
+export const IconeSelo = ({ className = "size-6" }: P) => (
+  <svg viewBox="0 0 24 24" className={className} {...base}>
+    <circle cx="12" cy="9" r="6" />
+    <path d="m9 14-2 7 5-3 5 3-2-7" />
+  </svg>
+);
+
+export const IconeCartao = ({ className = "size-6" }: P) => (
+  <svg viewBox="0 0 24 24" className={className} {...base}>
+    <rect x="2" y="5" width="20" height="14" rx="2" />
+    <path d="M2 10h20M6 15h4" />
+  </svg>
+);
+
+// Icone de cada categoria do Shop 9, pelo nome. O que nao casar usa a caixa.
+export function iconeCategoria(c: string) {
+  const n = c.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+  if (/tinta|refil|cartucho|insumo/.test(n)) return IconeGota;
+  if (/toner|impressora|papel|bobina/.test(n)) return IconeImpressora;
+  if (/cabo|adaptador|extensao|hub|carregador|fonte/.test(n)) return IconeCabo;
+  if (/rede|internet|wifi|roteador/.test(n)) return IconeWifi;
+  if (/mouse/.test(n)) return IconeMouse;
+  if (/teclado/.test(n)) return IconeTeclado;
+  if (/fone|headset|som|microfone/.test(n)) return IconeFone;
+  if (/memori|ssd|hd|pen ?drive|processador|placa|cartao/.test(n)) return IconeChip;
+  if (/notebook/.test(n)) return IconeNotebook;
+  if (/gabinete|monitor|computador/.test(n)) return IconeComputador;
+  if (/nobreak|estabiliz|bateria|pilha/.test(n)) return IconeBateria;
+  return IconeCaixa;
+}

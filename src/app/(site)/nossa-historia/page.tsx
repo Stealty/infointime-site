@@ -20,12 +20,12 @@ export default async function NossaHistoria() {
   return (
     <div className="mx-auto max-w-7xl px-4 pt-10">
       <div className="grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:items-start">
-        <figure className="overflow-hidden rounded-cartao border border-linha bg-white">
+        <figure className="overflow-hidden rounded-cartao bg-white shadow-suave ring-1 ring-linha/70">
           {c.foto_familia_url ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img src={c.foto_familia_url} alt="A família Info In Time" className="aspect-[4/3] w-full object-cover" />
           ) : (
-            <div className="flex aspect-[4/3] w-full flex-col items-center justify-center gap-3 bg-marinho text-white">
+            <div className="flex aspect-[4/3] w-full flex-col items-center justify-center gap-3 fundo-marca text-white">
               <span className="text-8xl font-extrabold estreito">30</span>
               <span className="text-white/70">anos de Info In Time</span>
             </div>
@@ -47,15 +47,15 @@ export default async function NossaHistoria() {
       </div>
 
       <section className="mt-14 grid gap-4 sm:grid-cols-3">
-        <div className="rounded-cartao bg-marinho p-6 text-white">
+        <div className="fundo-marca rounded-cartao p-6 text-white shadow-alta">
           <p className="text-5xl font-extrabold estreito text-amarelo">30 anos</p>
           <p className="mt-2 text-white/80">atendendo o Sul Fluminense</p>
         </div>
-        <div className="rounded-cartao bg-azul p-6 text-white">
+        <div className="rounded-cartao bg-azul p-6 text-white shadow-alta">
           <p className="text-5xl font-extrabold estreito">{LOJAS.length} lojas</p>
           <p className="mt-2 text-white/80">{LOJAS.map((l) => l.nome).join(", ").replace(/, ([^,]*)$/, " e $1")}</p>
         </div>
-        <Link href="/produtos" className="group rounded-cartao border border-linha bg-white p-6 hover:border-azul">
+        <Link href="/produtos" className="group rounded-cartao bg-white shadow-suave ring-1 ring-linha/70 p-6 transition-all hover:-translate-y-0.5 hover:shadow-alta">
           <p className="text-5xl font-extrabold estreito text-vermelho">Venha conhecer</p>
           <p className="mt-2 text-suave group-hover:text-azul">Veja o que temos em estoque hoje</p>
         </Link>

@@ -63,7 +63,7 @@ export default async function Admin({ searchParams }: { searchParams: SP }) {
 
   return (
     <div className="min-h-screen bg-fundo">
-      <header className="bg-marinho text-white">
+      <header className="fundo-marca text-white">
         <div className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-4 py-4">
           <div>
             <p className="text-xl font-extrabold estreito">Painel do site</p>

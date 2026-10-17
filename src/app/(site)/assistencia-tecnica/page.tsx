@@ -45,7 +45,7 @@ export default async function Assistencia() {
 
   return (
     <>
-      <section className="bg-marinho text-white">
+      <section className="fundo-marca text-white">
         <div className="mx-auto max-w-7xl px-4 py-14 sm:py-20">
           <span className="faixa-curta" />
           <h1 className="mt-5 max-w-3xl text-4xl font-extrabold sm:text-6xl">Assistência técnica de informática</h1>
@@ -56,7 +56,7 @@ export default async function Assistencia() {
             href={zap}
             target="_blank"
             rel="noopener"
-            className="mt-8 inline-flex items-center gap-2 rounded-full bg-[#1fa855] px-6 py-4 text-lg font-bold hover:brightness-110"
+            className="button button--lg button--zap mt-8 h-14 px-8 text-lg"
           >
             <IconeWhatsApp /> Descrever o problema
           </a>
@@ -68,8 +68,8 @@ export default async function Assistencia() {
           <h2 className="text-3xl font-extrabold text-marinho">O que a gente conserta</h2>
           <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {SERVICOS.map((s) => (
-              <article key={s.nome} className="rounded-cartao border border-linha bg-white p-6">
-                <div className="flex size-14 items-center justify-center rounded-full bg-fundo text-azul">
+              <article key={s.nome} className="rounded-cartao bg-white shadow-suave ring-1 ring-linha/70 p-6">
+                <div className="flex size-14 items-center justify-center rounded-2xl bg-azul/8 text-azul">
                   <s.icone className="size-7" />
                 </div>
                 <h3 className="mt-4 text-2xl font-extrabold text-marinho">{s.nome}</h3>
@@ -91,7 +91,7 @@ export default async function Assistencia() {
           </div>
           <ol className="space-y-3">
             {PASSOS.map((p, i) => (
-              <li key={p.titulo} className="flex gap-4 rounded-cartao border border-linha bg-white p-5">
+              <li key={p.titulo} className="flex gap-4 rounded-cartao bg-white shadow-suave ring-1 ring-linha/70 p-5">
                 <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-azul text-lg font-extrabold text-white">
                   {i + 1}
                 </span>
@@ -104,7 +104,7 @@ export default async function Assistencia() {
           </ol>
         </section>
 
-        <section className="mt-14 rounded-cartao bg-azul p-6 text-white sm:p-10">
+        <section className="fundo-marca mt-16 rounded-3xl p-6 text-white shadow-alta sm:p-10">
           <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr] lg:items-center">
             <div>
               <h2 className="text-3xl font-extrabold">Onde deixar o equipamento</h2>
@@ -117,10 +117,10 @@ export default async function Assistencia() {
               </ul>
             </div>
             <div className="flex flex-wrap gap-3 lg:justify-end">
-              <a href={zap} target="_blank" rel="noopener" className="flex items-center gap-2 rounded-full bg-white px-6 py-3 font-bold text-azul hover:bg-amarelo hover:text-marinho">
+              <a href={zap} target="_blank" rel="noopener" className="button button--lg button--claro">
                 <IconeWhatsApp /> Falar com a equipe
               </a>
-              <Link href="/produtos" className="rounded-full px-6 py-3 font-bold ring-1 ring-white/40 hover:bg-white/10">
+              <Link href="/produtos" className="button button--lg button--vidro">
                 Peças e suprimentos
               </Link>
             </div>

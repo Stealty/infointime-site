@@ -67,8 +67,8 @@ export default async function Produtos({ searchParams }: { searchParams: SP }) {
               key={o.valor}
               href={montarHref(base, { ordem: o.valor === "relevancia" ? undefined : o.valor, pagina: undefined })}
               aria-current={o.valor === ordem ? "true" : undefined}
-              className={`rounded-full px-3.5 py-1.5 text-sm font-medium ${
-                o.valor === ordem ? "bg-marinho text-white" : "bg-white text-suave ring-1 ring-linha hover:text-texto"
+              className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+                o.valor === ordem ? "bg-azul text-white shadow-suave" : "bg-white text-suave ring-1 ring-linha hover:text-azul"
               }`}
             >
               {o.label}
@@ -78,13 +78,13 @@ export default async function Produtos({ searchParams }: { searchParams: SP }) {
       </div>
 
       <div className="mt-6 grid gap-8 lg:grid-cols-[230px_1fr]">
-        <aside className="hidden lg:block">
+        <aside className="hidden self-start rounded-cartao bg-white p-4 shadow-suave ring-1 ring-linha/70 lg:sticky lg:top-40 lg:block">
           <p className="font-bold text-marinho">Categorias</p>
           <ul className="mt-2 space-y-0.5 text-[15px]">
             <li>
               <Link
                 href={montarHref({ q: base.q, ordem: base.ordem }, {})}
-                className={`flex justify-between rounded-md px-2 py-1.5 ${!cat ? "bg-white font-semibold text-azul" : "text-suave hover:text-texto"}`}
+                className={`flex justify-between rounded-md px-2 py-1.5 ${!cat ? "bg-azul/8 font-semibold text-azul" : "text-suave hover:bg-fundo hover:text-texto"}`}
               >
                 Todas
               </Link>
@@ -94,7 +94,7 @@ export default async function Produtos({ searchParams }: { searchParams: SP }) {
                 <Link
                   href={montarHref({ q: base.q, ordem: base.ordem }, { cat: c.categoria })}
                   className={`flex justify-between gap-2 rounded-md px-2 py-1.5 ${
-                    cat === c.categoria ? "bg-white font-semibold text-azul" : "text-suave hover:text-texto"
+                    cat === c.categoria ? "bg-azul/8 font-semibold text-azul" : "text-suave hover:bg-fundo hover:text-texto"
                   }`}
                 >
                   <span>{categoriaBonita(c.categoria)}</span>
@@ -107,13 +107,13 @@ export default async function Produtos({ searchParams }: { searchParams: SP }) {
 
         <div>
           {itens.length ? (
-            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 xl:grid-cols-4">
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-5 xl:grid-cols-4">
               {itens.map((p) => (
                 <ProductCard key={p.codigo} produto={p} />
               ))}
             </div>
           ) : (
-            <div className="rounded-cartao border border-linha bg-white p-8 text-center">
+            <div className="rounded-cartao bg-white shadow-suave ring-1 ring-linha/70 p-8 text-center">
               <p className="text-xl font-bold text-marinho">Nenhum produto encontrado no estoque online</p>
               <p className="mx-auto mt-2 max-w-md text-suave">
                 Nem tudo que temos na loja aparece aqui. Mande uma mensagem que a equipe confere para você.
@@ -122,7 +122,7 @@ export default async function Produtos({ searchParams }: { searchParams: SP }) {
                 href={linkWhatsApp(conteudo.whatsapp, q ? `Olá! Vocês têm ${q}?` : "Olá! Vim pelo site da Info In Time.")}
                 target="_blank"
                 rel="noopener"
-                className="mt-5 inline-flex items-center gap-2 rounded-full bg-[#1fa855] px-5 py-3 font-bold text-white hover:brightness-110"
+                className="button button--lg button--zap mt-5"
               >
                 <IconeWhatsApp /> Perguntar no WhatsApp
               </a>
@@ -132,7 +132,7 @@ export default async function Produtos({ searchParams }: { searchParams: SP }) {
           {paginas > 1 && (
             <nav aria-label="Páginas" className="mt-8 flex flex-wrap items-center justify-center gap-2">
               {pagina > 1 && (
-                <Link href={montarHref(base, { pagina: String(pagina - 1) })} className="rounded-full bg-white px-4 py-2 font-medium ring-1 ring-linha hover:ring-azul">
+                <Link href={montarHref(base, { pagina: String(pagina - 1) })} className="button button--tertiary">
                   Anterior
                 </Link>
               )}
@@ -140,7 +140,7 @@ export default async function Produtos({ searchParams }: { searchParams: SP }) {
                 Página {pagina} de {paginas}
               </span>
               {pagina < paginas && (
-                <Link href={montarHref(base, { pagina: String(pagina + 1) })} className="rounded-full bg-white px-4 py-2 font-medium ring-1 ring-linha hover:ring-azul">
+                <Link href={montarHref(base, { pagina: String(pagina + 1) })} className="button button--tertiary">
                   Próxima
                 </Link>
               )}

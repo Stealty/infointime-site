@@ -1,37 +1,85 @@
 @import "tailwindcss";
+@import "@heroui/styles";
 
 /* Paleta tirada do logo da Info In Time: o circulo azul, as faixas vermelha e
    amarela, e o azul claro que o site atual usa nos botoes. */
 @theme {
   --color-marinho: #0a2a5c;
+  --color-marinho-escuro: #071d42;
   --color-azul: #0c4da2;
   --color-azul-claro: #2ea3f2;
   --color-vermelho: #e02b20;
   --color-amarelo: #ffc61a;
-  --color-fundo: #f2f5f9;
-  --color-linha: #dbe2ec;
-  --color-texto: #16202e;
+  --color-zap: #1fa855;
+  --color-fundo: #f4f7fb;
+  --color-linha: #e1e7f0;
+  --color-texto: #14213a;
   --color-suave: #5b6779;
 
   --font-sans: "Archivo", ui-sans-serif, system-ui, sans-serif;
 
-  --radius-cartao: 10px;
+  --radius-cartao: 16px;
+
+  --shadow-suave: 0 1px 2px rgb(10 42 92 / 0.04), 0 4px 16px -4px rgb(10 42 92 / 0.08);
+  --shadow-alta: 0 2px 4px rgb(10 42 92 / 0.05), 0 18px 40px -12px rgb(10 42 92 / 0.22);
+
+  --animate-sobe: sobe 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  @keyframes sobe {
+    from { opacity: 0; transform: translateY(18px); }
+    to { opacity: 1; transform: none; }
+  }
+}
+
+/* Tema do HeroUI com as cores da marca. Fora de @layer para vencer o tema padrao. */
+:root,
+.light,
+[data-theme="light"] {
+  --accent: #0c4da2;
+  --accent-foreground: #ffffff;
+  --accent-hover: #0a3f86;
+  --accent-soft: #e6eefa;
+  --accent-soft-foreground: #0c4da2;
+  --accent-soft-hover: #d8e4f6;
+
+  --danger: #e02b20;
+  --danger-foreground: #ffffff;
+  --success: #1fa855;
+  --success-foreground: #ffffff;
+  --warning: #ffc61a;
+  --warning-foreground: #0a2a5c;
+
+  --background: #f4f7fb;
+  --foreground: #14213a;
+  --muted: #5b6779;
+  --surface: #ffffff;
+  --surface-foreground: #14213a;
+  --border: #e1e7f0;
+  --separator: #e1e7f0;
+  --focus: #ffc61a;
+  --link: #0c4da2;
+
+  --radius: 0.75rem;
+  --field-radius: 0.875rem;
+  --field-background: #ffffff;
+  --field-border: #e1e7f0;
+  --field-border-width: 1px;
 }
 
 @layer base {
   html {
     -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
   }
   body {
     background: var(--color-fundo);
     color: var(--color-texto);
     font-family: var(--font-sans);
-    font-variation-settings: "wdth" 100;
   }
   h1, h2, h3 {
     font-stretch: 87.5%;
-    letter-spacing: -0.01em;
-    line-height: 1.1;
+    letter-spacing: -0.015em;
+    line-height: 1.08;
+    text-wrap: balance;
   }
   :focus-visible {
     outline: 3px solid var(--color-amarelo);
@@ -41,7 +89,7 @@
 
 /* A assinatura visual: as tres faixas do logo (vermelho, amarelo, azul). */
 .faixa-logo {
-  height: 5px;
+  height: 4px;
   background: linear-gradient(
     to right,
     var(--color-vermelho) 0 33.33%,
@@ -52,8 +100,8 @@
 
 .faixa-curta {
   display: inline-block;
-  width: 56px;
-  height: 5px;
+  width: 48px;
+  height: 4px;
   border-radius: 3px;
   background: linear-gradient(
     to right,
@@ -61,6 +109,16 @@
     var(--color-amarelo) 33.33% 66.66%,
     var(--color-azul-claro) 66.66% 100%
   );
+}
+
+/* Fundo dos blocos escuros: marinho com um brilho azul e as faixas do logo
+   cruzando em diagonal, bem apagadas. */
+.fundo-marca {
+  background-color: var(--color-marinho);
+  background-image:
+    radial-gradient(60rem 30rem at 85% -10%, rgb(46 163 242 / 0.35), transparent 60%),
+    radial-gradient(40rem 26rem at -10% 110%, rgb(12 77 162 / 0.7), transparent 60%),
+    linear-gradient(115deg, transparent 62%, rgb(224 43 32 / 0.16) 62% 64%, rgb(255 198 26 / 0.14) 64% 66%, rgb(46 163 242 / 0.16) 66% 68%, transparent 68%);
 }
 
 .estreito {
@@ -72,6 +130,42 @@
 }
 .scroll-x::-webkit-scrollbar {
   display: none;
+}
+
+/* Botoes do HeroUI usados em <a> e <Link>: mesmo visual dos <Button>. */
+a.button {
+  text-decoration: none;
+}
+.button--zap {
+  background: var(--color-zap);
+  color: #fff;
+}
+.button--zap:hover {
+  background: #1a9149;
+}
+.button--claro {
+  background: #fff;
+  color: var(--color-marinho);
+}
+.button--claro:hover {
+  background: var(--color-amarelo);
+}
+.button--vidro {
+  background: rgb(255 255 255 / 0.1);
+  color: #fff;
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.25);
+}
+.button--vidro:hover {
+  background: rgb(255 255 255 / 0.18);
+}
+
+/* Cartao de produto */
+.cartao-produto {
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s;
+}
+.cartao-produto:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-alta);
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -8,7 +8,7 @@ export const metadata: Metadata = { title: "Entrar no painel", robots: { index: 
 export default async function Login() {
   if (await sessaoValida()) redirect("/admin");
   return (
-    <main className="flex min-h-screen items-center justify-center bg-marinho px-4">
+    <main className="flex min-h-screen items-center justify-center fundo-marca px-4">
       <div className="w-full max-w-sm overflow-hidden rounded-cartao bg-white shadow-2xl">
         <div className="faixa-logo" />
         <div className="p-7">

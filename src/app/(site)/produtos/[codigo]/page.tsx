@@ -53,11 +53,11 @@ export default async function PaginaProduto({ params }: { params: Params }) {
         </Link>
       </nav>
 
-      <div className="mt-4 grid gap-6 rounded-cartao border border-linha bg-white p-4 sm:p-8 md:grid-cols-2 md:gap-10">
-        <div className="flex aspect-square items-center justify-center">
+      <div className="mt-4 grid gap-6 rounded-cartao bg-white shadow-suave ring-1 ring-linha/70 p-4 sm:p-8 md:grid-cols-2 md:gap-10">
+        <div className="flex aspect-square items-center justify-center rounded-2xl bg-[radial-gradient(circle_at_50%_40%,#ffffff_0%,#f1f5fb_100%)] p-6">
           {p.foto_url ? (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={p.foto_url} alt={nome} className="max-h-full max-w-full object-contain" />
+            <img src={p.foto_url} alt={nome} className="max-h-full max-w-full object-contain mix-blend-multiply" />
           ) : (
             <div className="flex flex-col items-center gap-3 text-linha">
               <IconeCaixa className="size-20" />
@@ -71,14 +71,14 @@ export default async function PaginaProduto({ params }: { params: Params }) {
             {p.marca ? `${nomeBonito(p.marca)} · ` : ""}Código {p.codigo}
           </p>
           <h1 className="mt-2 text-3xl font-extrabold text-marinho sm:text-4xl">{nome}</h1>
-          <p className="mt-6 text-5xl font-extrabold estreito text-azul">{formatarPreco(Number(p.preco))}</p>
+          <p className="mt-6 text-5xl font-extrabold estreito text-marinho">{formatarPreco(Number(p.preco))}</p>
           <p className="mt-1 text-sm text-suave">Em estoque. Preço sujeito a alteração, confirme pelo WhatsApp.</p>
 
           <a
             href={linkWhatsApp(conteudo.whatsapp, msg)}
             target="_blank"
             rel="noopener"
-            className="mt-8 flex items-center justify-center gap-2 rounded-full bg-[#1fa855] px-6 py-4 text-lg font-bold text-white hover:brightness-110 sm:self-start"
+            className="button button--lg button--zap mt-8 h-14 px-8 text-lg sm:self-start"
           >
             <IconeWhatsApp /> Pedir pelo WhatsApp
           </a>
