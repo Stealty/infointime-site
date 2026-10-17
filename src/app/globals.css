@@ -1,0 +1,83 @@
+@import "tailwindcss";
+
+/* Paleta tirada do logo da Info In Time: o circulo azul, as faixas vermelha e
+   amarela, e o azul claro que o site atual usa nos botoes. */
+@theme {
+  --color-marinho: #0a2a5c;
+  --color-azul: #0c4da2;
+  --color-azul-claro: #2ea3f2;
+  --color-vermelho: #e02b20;
+  --color-amarelo: #ffc61a;
+  --color-fundo: #f2f5f9;
+  --color-linha: #dbe2ec;
+  --color-texto: #16202e;
+  --color-suave: #5b6779;
+
+  --font-sans: "Archivo", ui-sans-serif, system-ui, sans-serif;
+
+  --radius-cartao: 10px;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    background: var(--color-fundo);
+    color: var(--color-texto);
+    font-family: var(--font-sans);
+    font-variation-settings: "wdth" 100;
+  }
+  h1, h2, h3 {
+    font-stretch: 87.5%;
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+  }
+  :focus-visible {
+    outline: 3px solid var(--color-amarelo);
+    outline-offset: 2px;
+  }
+}
+
+/* A assinatura visual: as tres faixas do logo (vermelho, amarelo, azul). */
+.faixa-logo {
+  height: 5px;
+  background: linear-gradient(
+    to right,
+    var(--color-vermelho) 0 33.33%,
+    var(--color-amarelo) 33.33% 66.66%,
+    var(--color-azul-claro) 66.66% 100%
+  );
+}
+
+.faixa-curta {
+  display: inline-block;
+  width: 56px;
+  height: 5px;
+  border-radius: 3px;
+  background: linear-gradient(
+    to right,
+    var(--color-vermelho) 0 33.33%,
+    var(--color-amarelo) 33.33% 66.66%,
+    var(--color-azul-claro) 66.66% 100%
+  );
+}
+
+.estreito {
+  font-stretch: 75%;
+}
+
+.scroll-x {
+  scrollbar-width: none;
+}
+.scroll-x::-webkit-scrollbar {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
