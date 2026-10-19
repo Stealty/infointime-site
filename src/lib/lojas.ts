@@ -21,8 +21,8 @@ export const LOJAS = [
     nome: "Arrozal",
     endereco: "Praça - R. São João, 37",
     cidade: "Arrozal, Piraí / RJ",
-    whatsapp: null,
-    telefone: null,
+    whatsapp: "5524988135546",
+    telefone: "(24) 98813-5546",
     mapa: "https://www.google.com/maps/search/?api=1&query=Info+In+Time+R.+S%C3%A3o+Jo%C3%A3o+37+Arrozal+Pira%C3%AD",
   },
 ] as const;
