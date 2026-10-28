@@ -73,7 +73,7 @@ export default async function Header() {
             ))}
           </nav>
 
-          <a href={zap} target="_blank" rel="noopener" className="button button--zap shrink-0 max-sm:px-3" aria-label="WhatsApp">
+          <a data-escolher-loja="" href={zap} target="_blank" rel="noopener" className="button button--zap shrink-0 max-sm:px-3" aria-label="WhatsApp">
             <IconeWhatsApp />
             <span className="hidden sm:inline">WhatsApp</span>
           </a>

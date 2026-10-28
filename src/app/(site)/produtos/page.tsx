@@ -119,6 +119,7 @@ export default async function Produtos({ searchParams }: { searchParams: SP }) {
                 Nem tudo que temos na loja aparece aqui. Mande uma mensagem que a equipe confere para você.
               </p>
               <a
+                data-escolher-loja=""
                 href={linkWhatsApp(conteudo.whatsapp, q ? `Olá! Vocês têm ${q}?` : "Olá! Vim pelo site da Info In Time.")}
                 target="_blank"
                 rel="noopener"

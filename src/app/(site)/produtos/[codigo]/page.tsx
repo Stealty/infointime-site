@@ -75,6 +75,7 @@ export default async function PaginaProduto({ params }: { params: Params }) {
           <p className="mt-1 text-sm text-suave">Em estoque. Preço sujeito a alteração, confirme pelo WhatsApp.</p>
 
           <a
+            data-escolher-loja=""
             href={linkWhatsApp(conteudo.whatsapp, msg)}
             target="_blank"
             rel="noopener"

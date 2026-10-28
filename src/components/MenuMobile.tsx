@@ -79,7 +79,7 @@ export default function MenuMobile({
             </Drawer.Body>
 
             <Drawer.Footer className="border-t border-linha p-4">
-              <a href={zap} target="_blank" rel="noopener" onClick={fechar} className="button button--lg button--zap button--full-width">
+              <a data-escolher-loja="" href={zap} target="_blank" rel="noopener" onClick={fechar} className="button button--lg button--zap button--full-width">
                 <IconeWhatsApp /> Falar no WhatsApp
               </a>
             </Drawer.Footer>

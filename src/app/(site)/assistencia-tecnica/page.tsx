@@ -53,7 +53,7 @@ export default async function Assistencia() {
             Manutenção de impressoras, notebooks, computadores e nobreaks, com a experiência de 30 anos atendendo o Sul Fluminense.
           </p>
           <a
-            href={zap}
+            data-escolher-loja="" href={zap}
             target="_blank"
             rel="noopener"
             className="button button--lg button--zap mt-8 h-14 px-8 text-lg"
@@ -117,7 +117,7 @@ export default async function Assistencia() {
               </ul>
             </div>
             <div className="flex flex-wrap gap-3 lg:justify-end">
-              <a href={zap} target="_blank" rel="noopener" className="button button--lg button--claro">
+              <a data-escolher-loja="" href={zap} target="_blank" rel="noopener" className="button button--lg button--claro">
                 <IconeWhatsApp /> Falar com a equipe
               </a>
               <Link href="/produtos" className="button button--lg button--vidro">

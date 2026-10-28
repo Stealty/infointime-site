@@ -178,6 +178,7 @@ export default async function Home() {
                 Conhecer a assistência
               </Link>
               <a
+                data-escolher-loja=""
                 href={linkWhatsApp(conteudo.whatsapp, "Olá! Preciso de manutenção em um equipamento.")}
                 target="_blank"
                 rel="noopener"
