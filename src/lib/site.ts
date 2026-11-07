@@ -114,7 +114,10 @@ export async function buscarProdutos(opts: {
     const vistos = new Set<string>();
     let todos = [...(viaBianca ?? []), ...simples].filter((p) => !vistos.has(p.codigo) && vistos.add(p.codigo));
     if (opts.ordem === "menor_preco") todos = todos.sort((a, b) => a.preco - b.preco);
-    if (opts.ordem === "maior_preco") todos = todos.sort((a, b) => b.preco - a.preco);
+    else if (opts.ordem === "maior_preco") todos = todos.sort((a, b) => b.preco - a.preco);
+    // Ordem padrao: com foto primeiro, mantendo a relevancia da busca dentro de cada grupo.
+    // Sem foto so passa na frente quando o cliente escolhe ordenar por preco.
+    else todos = [...todos.filter((p) => p.foto_url), ...todos.filter((p) => !p.foto_url)];
     const ini = (pagina - 1) * porPagina;
     return { itens: todos.slice(ini, ini + porPagina), total: todos.length };
   }

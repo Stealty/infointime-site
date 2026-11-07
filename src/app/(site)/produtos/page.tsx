@@ -10,8 +10,9 @@ export const metadata: Metadata = {
 };
 
 const POR_PAGINA = 24;
+// Sem ordenacao escolhida, a lista mostra primeiro os produtos com foto ("relevancia").
+// Clicar de novo numa ordenacao ativa volta para essa ordem padrao.
 const ORDENS = [
-  { valor: "relevancia", label: "Com foto primeiro" },
   { valor: "menor_preco", label: "Menor preço" },
   { valor: "maior_preco", label: "Maior preço" },
 ];
@@ -31,6 +32,7 @@ export default async function Produtos({ searchParams }: { searchParams: SP }) {
   const q = (sp.q || "").slice(0, 80);
   const cat = sp.cat || "";
   const ordem = ORDENS.some((o) => o.valor === sp.ordem) ? sp.ordem! : "relevancia";
+  const ordenado = ordem !== "relevancia";
   const pagina = Math.max(1, Number(sp.pagina) || 1);
 
   const [{ itens, total }, categorias, conteudo] = await Promise.all([
@@ -51,7 +53,7 @@ export default async function Produtos({ searchParams }: { searchParams: SP }) {
           <h1 className="mt-2 text-3xl font-extrabold text-marinho sm:text-4xl">{titulo}</h1>
           <p className="mt-1 text-suave">
             {total === 1 ? "1 produto em estoque" : `${total} produtos em estoque`}
-            {(q || cat) && (
+            {(q || cat || ordenado) && (
               <>
                 {" · "}
                 <Link href="/produtos" className="text-azul hover:underline">
@@ -65,13 +67,19 @@ export default async function Produtos({ searchParams }: { searchParams: SP }) {
           {ORDENS.map((o) => (
             <Link
               key={o.valor}
-              href={montarHref(base, { ordem: o.valor === "relevancia" ? undefined : o.valor, pagina: undefined })}
+              href={montarHref(base, { ordem: o.valor === ordem ? undefined : o.valor, pagina: undefined })}
               aria-current={o.valor === ordem ? "true" : undefined}
               className={`rounded-full px-4 py-2.5 text-sm font-medium transition-colors ${
                 o.valor === ordem ? "bg-azul text-white shadow-suave" : "bg-white text-suave ring-1 ring-linha hover:text-azul"
               }`}
             >
               {o.label}
+              {o.valor === ordem ? (
+                <>
+                  <span aria-hidden className="ml-1.5">✕</span>
+                  <span className="sr-only"> (clique para remover)</span>
+                </>
+              ) : null}
             </Link>
           ))}
         </nav>
