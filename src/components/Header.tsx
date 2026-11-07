@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { getCategorias, getConteudo, categoriaBonita, slugCategoria, linkWhatsApp } from "@/lib/site";
 import { IconeBusca, IconeWhatsApp } from "./Icones";
 import MenuMobile from "./MenuMobile";
@@ -31,10 +32,13 @@ export default async function Header() {
 
           <Link href="/" className="group flex shrink-0 items-center gap-2.5" aria-label="Info In Time, página inicial">
             {conteudo.logo_url ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
+              <Image
                 src={conteudo.logo_url}
                 alt=""
+                width={48}
+                height={48}
+                sizes="48px"
+                preload
                 className="size-10 rounded-full ring-2 ring-white/15 transition-transform duration-300 group-hover:rotate-[-8deg] sm:size-12"
               />
             ) : null}
@@ -49,8 +53,8 @@ export default async function Header() {
               id="busca-topo"
               name="q"
               type="search"
-              placeholder="Buscar tinta, toner, cabo, SSD..."
-              className="h-11 w-full rounded-full border-0 bg-white pl-5 pr-12 text-[15px] text-texto shadow-[inset_0_0_0_1px_rgb(10_42_92/0.08)] transition-shadow placeholder:text-suave/80 focus:outline-none focus-visible:shadow-[0_0_0_4px_rgb(255_198_26/0.55)]"
+              placeholder="Buscar produtos"
+              className="h-11 w-full text-ellipsis rounded-full border-0 bg-white pl-5 pr-12 text-[15px] text-texto shadow-[inset_0_0_0_1px_rgb(10_42_92/0.08)] transition-shadow placeholder:text-suave/80 focus:outline-none focus-visible:shadow-[0_0_0_4px_rgb(255_198_26/0.55)]"
             />
             <button
               type="submit"
@@ -85,14 +89,14 @@ export default async function Header() {
       {principais.length > 0 && (
         <nav aria-label="Categorias" className="border-b border-linha bg-white/90 text-texto backdrop-blur-md">
           <div className="scroll-x mx-auto flex max-w-7xl gap-1.5 overflow-x-auto px-4 py-2">
-            <Link href="/produtos" className="chip chip--sm chip--accent shrink-0 font-semibold">
+            <Link href="/produtos" className="chip chip--accent min-h-10 shrink-0 px-3.5 font-semibold">
               Todos os produtos
             </Link>
             {itensCategoria.map((c) => (
               <Link
                 key={c.href}
                 href={c.href}
-                className="shrink-0 whitespace-nowrap rounded-full px-3 py-1 text-sm text-suave transition-colors hover:bg-fundo hover:text-azul"
+                className="flex min-h-10 shrink-0 items-center whitespace-nowrap rounded-full px-3 text-sm text-suave transition-colors hover:bg-fundo hover:text-azul"
               >
                 {c.label}
               </Link>

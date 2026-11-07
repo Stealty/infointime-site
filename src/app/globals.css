@@ -1,5 +1,21 @@
+@layer theme, base, components, utilities;
+
 @import "tailwindcss";
-@import "@heroui/styles";
+@import "tw-animate-css";
+
+/* HeroUI: so o que o site usa (botao, chip, drawer do menu, modal de lojas).
+   O pacote inteiro gerava ~470 KB de CSS bloqueando a primeira pintura.
+   Usou um componente novo do HeroUI? Importe o CSS dele aqui. */
+@import "@heroui/styles/base" layer(base);
+@import "@heroui/styles/base/scrollbar.css" layer(base);
+@import "@heroui/styles/components/close-button.css" layer(components);
+@import "@heroui/styles/components/button.css" layer(components);
+@import "@heroui/styles/components/chip.css" layer(components);
+@import "@heroui/styles/components/drawer.css" layer(components);
+@import "@heroui/styles/components/modal.css" layer(components);
+@import "@heroui/styles/themes/default" layer(theme);
+@import "@heroui/styles/utilities";
+@import "@heroui/styles/variants";
 
 /* Paleta tirada do logo da Info In Time: o circulo azul, as faixas vermelha e
    amarela, e o azul claro que o site atual usa nos botoes. */
@@ -11,12 +27,14 @@
   --color-vermelho: #e02b20;
   --color-amarelo: #ffc61a;
   --color-zap: #1fa855;
+  /* Verde dos botoes com texto branco: #1fa855 so da 3,1:1 de contraste; este da 5:1 (WCAG AA). */
+  --color-zap-botao: #15803d;
   --color-fundo: #f4f7fb;
   --color-linha: #e1e7f0;
   --color-texto: #14213a;
   --color-suave: #5b6779;
 
-  --font-sans: "Archivo", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-archivo), "Archivo", ui-sans-serif, system-ui, sans-serif;
 
   --radius-cartao: 16px;
 
@@ -137,11 +155,11 @@ a.button {
   text-decoration: none;
 }
 .button--zap {
-  background: var(--color-zap);
+  background: var(--color-zap-botao);
   color: #fff;
 }
 .button--zap:hover {
-  background: #1a9149;
+  background: #166534;
 }
 .button--claro {
   background: #fff;
@@ -157,6 +175,25 @@ a.button {
 }
 .button--vidro:hover {
   background: rgb(255 255 255 / 0.18);
+}
+
+/* Revelar: so o que comeca abaixo da dobra recebe .revelar-oculto (ver Revelar.tsx). */
+.revelar {
+  transition:
+    opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.revelar-oculto {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: none;
+}
+
+/* Barra fixa de pedido na pagina do produto (celular): reserva espaco para nao cobrir o rodape. */
+@media (max-width: 767px) {
+  body:has(.barra-pedido) {
+    padding-bottom: 76px;
+  }
 }
 
 /* Cartao de produto */

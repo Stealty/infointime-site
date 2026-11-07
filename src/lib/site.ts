@@ -34,8 +34,10 @@ export type Conteudo = {
   produtos_ocultos: string;
 };
 
+const LOGO_LOCAL = "/logo.webp";
+
 const CONTEUDO_PADRAO: Conteudo = {
-  logo_url: "",
+  logo_url: LOGO_LOCAL,
   foto_familia_url: "",
   historia_titulo: "Há 30 anos cuidando da informática do Sul Fluminense",
   historia_texto: "",
@@ -48,6 +50,17 @@ const CONTEUDO_PADRAO: Conteudo = {
 const CACHE_CATALOGO = { revalidate: 300, tags: [TAG_CATALOGO] };
 const CACHE_SITE = { revalidate: 300, tags: [TAG_SITE] };
 
+// So o Storage do Supabase passa pelo otimizador de imagens (next.config.ts). Logo vindo de
+// outro lugar (ex.: o CDN do site antigo, cdn.guiase.net) usa o arquivo local em /public.
+function logoSeguro(url: string) {
+  if (url.startsWith("/")) return url;
+  try {
+    return new URL(url).hostname === new URL(process.env.SUPABASE_URL || "http://x").hostname ? url : LOGO_LOCAL;
+  } catch {
+    return LOGO_LOCAL;
+  }
+}
+
 export async function getConteudo(): Promise<Conteudo> {
   try {
     const rows = await select<{ chave: string; valor: string | null }[]>(
@@ -58,6 +71,7 @@ export async function getConteudo(): Promise<Conteudo> {
     for (const r of rows) {
       if (r.chave in c && r.valor != null) (c as Record<string, string>)[r.chave] = r.valor;
     }
+    c.logo_url = c.logo_url ? logoSeguro(c.logo_url) : LOGO_LOCAL;
     return c;
   } catch {
     return CONTEUDO_PADRAO;

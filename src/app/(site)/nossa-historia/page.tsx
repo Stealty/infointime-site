@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { getConteudo } from "@/lib/site";
 import { LOJAS } from "@/lib/lojas";
 
@@ -22,8 +23,16 @@ export default async function NossaHistoria() {
       <div className="grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:items-start">
         <figure className="overflow-hidden rounded-cartao bg-white shadow-suave ring-1 ring-linha/70">
           {c.foto_familia_url ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={c.foto_familia_url} alt="A família Info In Time" className="aspect-[4/3] w-full object-cover" />
+            <Image
+              src={c.foto_familia_url}
+              alt="A família Info In Time"
+              width={1080}
+              height={810}
+              sizes="(min-width: 1280px) 660px, (min-width: 1024px) 52vw, 100vw"
+              preload
+              loading="eager"
+              className="aspect-[4/3] w-full object-cover"
+            />
           ) : (
             <div className="flex aspect-[4/3] w-full flex-col items-center justify-center gap-3 fundo-marca text-white">
               <span className="text-8xl font-extrabold estreito">30</span>

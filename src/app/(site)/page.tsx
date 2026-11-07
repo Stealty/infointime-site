@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import HeroCarousel from "@/components/HeroCarousel";
 import ProductCard from "@/components/ProductCard";
 import SecaoTitulo from "@/components/SecaoTitulo";
@@ -55,14 +56,14 @@ export default async function Home() {
         <section className="fundo-marca relative overflow-hidden text-white">
           <div className="mx-auto grid max-w-7xl items-center gap-12 px-4 pb-24 pt-14 sm:pt-20 lg:grid-cols-[1.15fr_1fr] lg:pb-32">
             <div>
-              <span className="faixa-curta animate-sobe" />
-              <h1 className="animate-sobe mt-6 text-[42px] font-extrabold sm:text-6xl lg:text-7xl" style={{ animationDelay: "80ms" }}>
+              <span className="faixa-curta" />
+              <h1 className="mt-6 text-[42px] font-extrabold sm:text-6xl lg:text-7xl">
                 A maior loja de informática do Sul Fluminense
               </h1>
-              <p className="animate-sobe mt-6 max-w-xl text-lg leading-relaxed text-white/80" style={{ animationDelay: "160ms" }}>
+              <p className="mt-6 max-w-xl text-lg leading-relaxed text-white/80">
                 Produtos, tintas e toners, e manutenção de notebooks, computadores e impressoras. Há 30 anos atendendo de perto.
               </p>
-              <div className="animate-sobe mt-9 flex flex-wrap gap-3" style={{ animationDelay: "240ms" }}>
+              <div className="mt-9 flex flex-wrap gap-3">
                 <Link href="/produtos" className="button button--lg button--danger">
                   Ver produtos em estoque
                 </Link>
@@ -87,8 +88,7 @@ export default async function Home() {
                       className={`animate-sobe absolute size-48 rounded-3xl bg-white p-5 shadow-[0_30px_60px_-20px_rgb(0_0_0/0.5)] ${pos}`}
                       style={{ animationDelay: `${300 + i * 110}ms` }}
                     >
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={produto.foto_url!} alt="" className="size-full object-contain mix-blend-multiply" />
+                      <Image src={produto.foto_url!} alt="" width={256} height={256} sizes="152px" className="size-full object-contain mix-blend-multiply" />
                     </div>
                   );
                 })}
@@ -106,8 +106,8 @@ export default async function Home() {
             }`}
           >
             {VANTAGENS.map((v) => (
-              <li key={v.titulo} className="flex items-center gap-3 bg-white px-4 py-5 sm:px-6">
-                <span className="flex size-11 shrink-0 items-center justify-center rounded-2xl bg-azul/8 text-azul">
+              <li key={v.titulo} className="flex flex-col items-start gap-2.5 bg-white px-4 py-4 sm:flex-row sm:items-center sm:gap-3 sm:px-6 sm:py-5">
+                <span className="flex size-10 shrink-0 items-center justify-center rounded-2xl bg-azul/8 text-azul sm:size-11">
                   <v.icone className="size-6" />
                 </span>
                 <span>

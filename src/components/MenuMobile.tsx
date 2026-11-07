@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { Drawer, useOverlayState } from "@heroui/react";
 import { IconeMenu, IconeWhatsApp, IconeSeta } from "./Icones";
 
@@ -33,8 +34,7 @@ export default function MenuMobile({
           <Drawer.Dialog className="flex h-full w-[86vw] max-w-sm flex-col bg-white p-0">
             <Drawer.Header className="fundo-marca flex-row! items-center! gap-3 px-5! pb-5! pt-6! text-white">
               {logo ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img src={logo} alt="" className="size-11 rounded-full ring-2 ring-white/20" />
+                <Image src={logo} alt="" width={44} height={44} sizes="44px" className="size-11 rounded-full ring-2 ring-white/20" />
               ) : null}
               <Drawer.Heading className="text-xl! font-extrabold text-white! estreito">Info In Time</Drawer.Heading>
               <Drawer.CloseTrigger className="ml-auto text-white" />
@@ -68,7 +68,7 @@ export default function MenuMobile({
                         key={c.href}
                         href={c.href}
                         onClick={fechar}
-                        className="rounded-full bg-fundo px-3 py-1.5 text-sm text-texto transition-colors hover:bg-azul hover:text-white"
+                        className="flex min-h-10 items-center rounded-full bg-fundo px-3.5 text-sm text-texto transition-colors hover:bg-azul hover:text-white"
                       >
                         {c.label}
                       </Link>

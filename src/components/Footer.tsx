@@ -24,10 +24,10 @@ export default function Footer() {
 
         <div>
           <p className="font-bold text-white">Navegue</p>
-          <ul className="mt-3 space-y-2 text-[15px]">
-            <li><Link href="/produtos" className="hover:text-white">Produtos</Link></li>
-            <li><Link href="/assistencia-tecnica" className="hover:text-white">Assistência técnica</Link></li>
-            <li><Link href="/nossa-historia" className="hover:text-white">Nossa história</Link></li>
+          <ul className="mt-2 text-[15px]">
+            <li><Link href="/produtos" className="inline-block py-2 hover:text-white">Produtos</Link></li>
+            <li><Link href="/assistencia-tecnica" className="inline-block py-2 hover:text-white">Assistência técnica</Link></li>
+            <li><Link href="/nossa-historia" className="inline-block py-2 hover:text-white">Nossa história</Link></li>
           </ul>
         </div>
 
@@ -59,12 +59,12 @@ export default function Footer() {
               </li>
             ))}
           </ul>
-          <p className="mt-4 text-sm text-white/60">
+          <p className="mt-4 text-sm text-white/75">
             Preços e estoque podem mudar ao longo do dia. Confirme pelo WhatsApp antes de ir à loja.
           </p>
         </div>
       </div>
-      <div className="border-t border-white/10 px-4 py-5 text-center text-sm text-white/50">
+      <div className="border-t border-white/10 px-4 py-5 text-center text-sm text-white/70">
         © {new Date().getFullYear()} Info In Time
       </div>
     </footer>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { getImageProps } from "next/image";
 import { IconeSeta, IconeSetaEsq } from "./Icones";
 
 export type SlideBanner = {
@@ -58,16 +59,24 @@ export default function HeroCarousel({ banners }: { banners: SlideBanner[] }) {
     >
       <div ref={trilho} className="scroll-x flex snap-x snap-mandatory overflow-x-auto">
         {banners.map((b, i) => {
+          const alt = b.titulo || "Promoção Info In Time";
+          const prioridade = i === 0;
+          const comum = {
+            alt,
+            loading: prioridade ? ("eager" as const) : ("lazy" as const),
+            fetchPriority: prioridade ? ("high" as const) : ("auto" as const),
+          };
+          const { props: desktop } = getImageProps({ ...comum, src: b.imagem_desktop, width: 1920, height: 600, sizes: "100vw" });
+          const mobile = b.imagem_mobile
+            ? getImageProps({ ...comum, src: b.imagem_mobile, width: 1080, height: 1080, sizes: "100vw" }).props
+            : null;
           const img = (
             <picture>
-              {b.imagem_mobile ? <source media="(max-width: 640px)" srcSet={b.imagem_mobile} /> : null}
-              {/* eslint-disable-next-line @next/next/no-img-element */}
+              {mobile ? <source media="(max-width: 640px)" srcSet={mobile.srcSet} sizes="100vw" /> : null}
+              {/* eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text */}
               <img
-                src={b.imagem_desktop}
-                alt={b.titulo || "Promoção Info In Time"}
-                loading={i === 0 ? "eager" : "lazy"}
-                fetchPriority={i === 0 ? "high" : "auto"}
-                className={`block w-full object-cover ${b.imagem_mobile ? "aspect-square sm:aspect-[16/5]" : "aspect-[16/5]"}`}
+                {...desktop}
+                className={`block w-full object-cover ${mobile ? "aspect-square sm:aspect-[16/5]" : "aspect-[16/5]"}`}
               />
             </picture>
           );

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import ProductCard from "@/components/ProductCard";
 import { IconeCaixa, IconeWhatsApp } from "@/components/Icones";
@@ -46,18 +47,26 @@ export default async function PaginaProduto({ params }: { params: Params }) {
   return (
     <div className="mx-auto max-w-7xl px-4 pt-6">
       <nav aria-label="Você está em" className="text-sm text-suave">
-        <Link href="/produtos" className="hover:text-azul">Produtos</Link>
+        <Link href="/produtos" className="inline-block py-2.5 hover:text-azul">Produtos</Link>
         <span className="mx-1.5">/</span>
-        <Link href={`/produtos?cat=${slugCategoria(p.categoria)}`} className="hover:text-azul">
+        <Link href={`/produtos?cat=${slugCategoria(p.categoria)}`} className="inline-block py-2.5 hover:text-azul">
           {categoriaBonita(p.categoria)}
         </Link>
       </nav>
 
-      <div className="mt-4 grid gap-6 rounded-cartao bg-white shadow-suave ring-1 ring-linha/70 p-4 sm:p-8 md:grid-cols-2 md:gap-10">
+      <div className="mt-1 grid gap-6 rounded-cartao bg-white shadow-suave ring-1 ring-linha/70 p-4 sm:p-8 md:grid-cols-2 md:gap-10">
         <div className="flex aspect-square items-center justify-center rounded-2xl bg-[radial-gradient(circle_at_50%_40%,#ffffff_0%,#f1f5fb_100%)] p-6">
           {p.foto_url ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={p.foto_url} alt={nome} className="max-h-full max-w-full object-contain mix-blend-multiply" />
+            <Image
+              src={p.foto_url}
+              alt={nome}
+              width={640}
+              height={640}
+              sizes="(min-width: 1280px) 560px, (min-width: 768px) 45vw, 90vw"
+              preload
+              loading="eager"
+              className="size-full object-contain mix-blend-multiply"
+            />
           ) : (
             <div className="flex flex-col items-center gap-3 text-linha">
               <IconeCaixa className="size-20" />
@@ -83,6 +92,23 @@ export default async function PaginaProduto({ params }: { params: Params }) {
           >
             <IconeWhatsApp /> Pedir pelo WhatsApp
           </a>
+
+          {/* No celular o botao principal fica abaixo da dobra: barra fixa com preco e pedido. */}
+          <div className="barra-pedido fixed inset-x-0 bottom-0 z-30 flex items-center gap-3 border-t border-linha bg-white/95 px-4 py-3 shadow-[0_-8px_24px_-12px_rgb(10_42_92/0.25)] backdrop-blur-md md:hidden">
+            <p className="min-w-0 flex-1">
+              <span className="block truncate text-xs text-suave">{nome}</span>
+              <span className="block text-2xl font-extrabold leading-tight text-marinho estreito">{formatarPreco(Number(p.preco))}</span>
+            </p>
+            <a
+              data-escolher-loja=""
+              href={linkWhatsApp(conteudo.whatsapp, msg)}
+              target="_blank"
+              rel="noopener"
+              className="button button--zap h-12 shrink-0 px-5"
+            >
+              <IconeWhatsApp /> Pedir
+            </a>
+          </div>
 
           <div className="mt-8 border-t border-linha pt-5 text-[15px] text-suave">
             <p className="font-semibold text-texto">Retire numa das lojas</p>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { getConteudo, linkWhatsApp } from "@/lib/site";
 import { LOJAS } from "@/lib/lojas";
 import { IconeBateria, IconeComputador, IconeImpressora, IconeNotebook, IconeWhatsApp } from "@/components/Icones";
@@ -110,8 +111,14 @@ export default async function Assistencia() {
               {ESPECIALIDADES.map((e) => (
                 <article key={e.imagem} className="w-[78%] shrink-0 snap-center sm:w-[44%] lg:w-auto">
                   <div className="overflow-hidden rounded-2xl ring-1 ring-white/15 shadow-alta transition-transform duration-500 hover:-translate-y-1">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={e.imagem} alt={e.alt} width={714} height={1162} loading="lazy" className="block h-auto w-full" />
+                    <Image
+                      src={e.imagem}
+                      alt={e.alt}
+                      width={714}
+                      height={1162}
+                      sizes="(min-width: 1280px) 340px, (min-width: 1024px) 28vw, (min-width: 640px) 44vw, 78vw"
+                      className="block h-auto w-full"
+                    />
                   </div>
                   <a
                     data-escolher-loja=""

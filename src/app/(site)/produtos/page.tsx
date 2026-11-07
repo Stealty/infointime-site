@@ -67,7 +67,7 @@ export default async function Produtos({ searchParams }: { searchParams: SP }) {
               key={o.valor}
               href={montarHref(base, { ordem: o.valor === "relevancia" ? undefined : o.valor, pagina: undefined })}
               aria-current={o.valor === ordem ? "true" : undefined}
-              className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+              className={`rounded-full px-4 py-2.5 text-sm font-medium transition-colors ${
                 o.valor === ordem ? "bg-azul text-white shadow-suave" : "bg-white text-suave ring-1 ring-linha hover:text-azul"
               }`}
             >
@@ -98,7 +98,7 @@ export default async function Produtos({ searchParams }: { searchParams: SP }) {
                   }`}
                 >
                   <span>{categoriaBonita(c.categoria)}</span>
-                  <span className="text-xs leading-6 opacity-70">{c.n}</span>
+                  <span className="text-xs leading-6 text-suave">{c.n}</span>
                 </Link>
               </li>
             ))}
@@ -107,11 +107,14 @@ export default async function Produtos({ searchParams }: { searchParams: SP }) {
 
         <div>
           {itens.length ? (
-            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-5 xl:grid-cols-4">
-              {itens.map((p) => (
-                <ProductCard key={p.codigo} produto={p} />
-              ))}
-            </div>
+            <section aria-labelledby="lista-produtos">
+              <h2 id="lista-produtos" className="sr-only">Lista de produtos</h2>
+              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-5 xl:grid-cols-4">
+                {itens.map((p, i) => (
+                  <ProductCard key={p.codigo} produto={p} prioridade={i < 4} />
+                ))}
+              </div>
+            </section>
           ) : (
             <div className="rounded-cartao bg-white shadow-suave ring-1 ring-linha/70 p-8 text-center">
               <p className="text-xl font-bold text-marinho">Nenhum produto encontrado no estoque online</p>
