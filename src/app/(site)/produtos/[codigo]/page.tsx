@@ -14,7 +14,6 @@ import {
   nomeBonito,
   slugCategoria,
 } from "@/lib/site";
-import { LOJAS } from "@/lib/lojas";
 
 export const revalidate = 300;
 
@@ -111,15 +110,8 @@ export default async function PaginaProduto({ params }: { params: Params }) {
           </div>
 
           <div className="mt-8 border-t border-linha pt-5 text-[15px] text-suave">
-            <p className="font-semibold text-texto">Retire numa das lojas</p>
-            <ul className="mt-2 space-y-1">
-              {LOJAS.map((l) => (
-                <li key={l.nome}>
-                  {l.nome}: {l.endereco}
-                </li>
-              ))}
-            </ul>
-            <p className="mt-3">Ou receba com entrega rápida em Volta Redonda, Barra Mansa e Pinheiral.</p>
+            <p className="font-semibold text-texto">Entrega rápida</p>
+            <p className="mt-1">Receba em Volta Redonda, Barra Mansa e Pinheiral.</p>
           </div>
         </div>
       </div>
