@@ -1,6 +1,7 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import EscolherLoja from "@/components/EscolherLoja";
+import Rastreamento from "@/components/Rastreamento";
 
 export default function SiteLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -12,6 +13,7 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
       <main id="conteudo">{children}</main>
       <Footer />
       <EscolherLoja />
+      <Rastreamento />
     </>
   );
 }
