@@ -205,9 +205,15 @@ export default async function Home() {
                         href={linkWhatsApp(l.whatsapp, `Olá! Vim pelo site e queria falar com a loja de ${l.nome}.`)}
                         target="_blank"
                         rel="noopener"
-                        className="button button--sm button--zap"
+                        // [&_*]:pointer-events-none: o clique cai sempre no proprio link,
+                        // que e onde o GTM le o texto (ver abaixo).
+                        className="button button--sm button--zap [&_*]:pointer-events-none"
                       >
                         <IconeWhatsApp className="size-4" /> {l.telefone}
+                        {/* O GTM do gestor conta a conversao de Barra Mansa pelo texto
+                            "Info in Time Barra Mansa" no botao (acionador do site antigo).
+                            Volta Redonda ja conta pelo numero no link; Arrozal nao tem conversao. */}
+                        {l.nome === "Barra Mansa" ? <span className="sr-only">Info in Time Barra Mansa</span> : null}
                       </a>
                     ) : null}
                   </div>
