@@ -1,6 +1,6 @@
 import Link from "next/link";
-import Image from "next/image";
 import HeroCarousel from "@/components/HeroCarousel";
+import { slidesDaHome } from "@/components/BannersHome";
 import ProductCard from "@/components/ProductCard";
 import SecaoTitulo from "@/components/SecaoTitulo";
 import Revelar from "@/components/Revelar";
@@ -46,64 +46,15 @@ export default async function Home() {
     getConteudo(),
   ]);
   const atalhos = categorias.filter((c) => c.categoria !== "OUTROS").slice(0, 10);
-  const vitrine = destaques.filter((d) => d.produto.foto_url).slice(0, 4);
 
   return (
     <>
-      {banners.length ? (
-        <HeroCarousel banners={banners} />
-      ) : (
-        <section className="fundo-marca relative overflow-hidden text-white">
-          <div className="mx-auto grid max-w-7xl items-center gap-12 px-4 pb-24 pt-14 sm:pt-20 lg:grid-cols-[1.15fr_1fr] lg:pb-32">
-            <div>
-              <span className="faixa-curta" />
-              <h1 className="mt-6 text-[42px] font-extrabold sm:text-6xl lg:text-7xl">
-                A maior loja de informática do Sul Fluminense
-              </h1>
-              <p className="mt-6 max-w-xl text-lg leading-relaxed text-white/80">
-                Produtos, tintas e toners, e manutenção de notebooks, computadores e impressoras. Há 30 anos atendendo de perto.
-              </p>
-              <div className="mt-9 flex flex-wrap gap-3">
-                <Link href="/produtos" className="button button--lg button--danger">
-                  Ver produtos em estoque
-                </Link>
-                <Link href="/assistencia-tecnica" className="button button--lg button--vidro">
-                  Assistência técnica
-                </Link>
-              </div>
-            </div>
-
-            {vitrine.length >= 3 && (
-              <div className="relative hidden h-[420px] lg:block" aria-hidden>
-                {vitrine.map(({ produto }, i) => {
-                  const pos = [
-                    "left-[6%] top-[2%] rotate-[-6deg]",
-                    "right-[2%] top-[10%] rotate-[5deg]",
-                    "left-[18%] bottom-[0%] rotate-[3deg]",
-                    "right-[14%] bottom-[6%] rotate-[-4deg]",
-                  ][i];
-                  return (
-                    <div
-                      key={produto.codigo}
-                      className={`animate-sobe absolute size-48 rounded-3xl bg-white p-5 shadow-[0_30px_60px_-20px_rgb(0_0_0/0.5)] ${pos}`}
-                      style={{ animationDelay: `${300 + i * 110}ms` }}
-                    >
-                      <Image src={produto.foto_url!} alt="" width={256} height={256} sizes="152px" className="size-full object-contain mix-blend-multiply" />
-                    </div>
-                  );
-                })}
-              </div>
-            )}
-          </div>
-        </section>
-      )}
+      <HeroCarousel slides={slidesDaHome(banners, conteudo.whatsapp)} />
 
       <div className="mx-auto max-w-7xl px-4">
         <Revelar>
           <ul
-            className={`relative z-10 grid grid-cols-2 gap-px overflow-hidden rounded-cartao bg-linha shadow-alta ring-1 ring-linha lg:grid-cols-4 ${
-              banners.length ? "mt-8" : "-mt-14"
-            }`}
+            className={`relative z-10 grid grid-cols-2 gap-px overflow-hidden rounded-cartao bg-linha shadow-alta ring-1 ring-linha lg:grid-cols-4 -mt-14`}
           >
             {VANTAGENS.map((v) => (
               <li key={v.titulo} className="flex flex-col items-start gap-2.5 bg-white px-4 py-4 sm:flex-row sm:items-center sm:gap-3 sm:px-6 sm:py-5">

@@ -16,7 +16,9 @@ export default async function NossaHistoria() {
   const paragrafos = c.historia_texto
     .split(/\n{2,}/)
     .map((p) => p.trim())
-    .filter(Boolean);
+    .filter(Boolean)
+    // Tira o aviso que veio no texto inicial do banco ("Texto provisorio: troque...").
+    .filter((p) => !/texto provis[oó]rio/i.test(p));
 
   return (
     <div className="mx-auto max-w-7xl px-4 pt-10">

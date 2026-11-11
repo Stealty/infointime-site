@@ -39,9 +39,7 @@ insert into public.it_site_conteudo (chave, valor) values
   ('logo_url', 'https://cdn.guiase.net/wp-content/uploads/sites/3943/2024/10/cropped-Logo-Info-Im-Time-Site-2-512-x-512-px.png'),
   ('foto_familia_url', ''),
   ('historia_titulo', 'Há 30 anos cuidando da informática do Sul Fluminense'),
-  ('historia_texto', 'A Info In Time nasceu em Volta Redonda e hoje atende também Barra Mansa e Arrozal. São 30 anos vendendo produtos de informática e cuidando da manutenção de notebooks, computadores e impressoras, sempre com atendimento próximo.
-
-(Texto provisório: troque pela história da família no painel /admin.)'),
+  ('historia_texto', 'A Info In Time nasceu em Volta Redonda e hoje atende também Barra Mansa e Arrozal. São 30 anos vendendo produtos de informática e cuidando da manutenção de notebooks, computadores e impressoras, sempre com atendimento próximo.'),
   ('whatsapp', '5524988138858'),
   ('produtos_ocultos', '')
 on conflict (chave) do nothing;
