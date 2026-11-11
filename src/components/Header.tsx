@@ -24,7 +24,7 @@ export default async function Header() {
     <header className="sticky top-0 z-40">
       <div className="fundo-marca text-white">
         <p className="hidden border-b border-white/10 px-4 py-1.5 text-center text-[13px] text-white/75 sm:block">
-          Entrega rápida em Volta Redonda, Barra Mansa e Pinheiral · Retire na loja
+          Entrega rápida em Volta Redonda, Barra Mansa e Pinheiral
         </p>
 
         <div className="mx-auto flex max-w-7xl items-center gap-2 px-4 py-3 sm:gap-5">
