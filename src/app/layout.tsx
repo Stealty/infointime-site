@@ -25,6 +25,9 @@ export const metadata: Metadata = {
   description:
     "Há 30 anos no Sul Fluminense: produtos de informática, tintas e toners, e manutenção de notebooks, computadores e impressoras em Volta Redonda, Barra Mansa e Arrozal.",
   openGraph: { locale: "pt_BR", type: "website", siteName: "Info In Time" },
+  // Verificacao do Google Search Console, pedida pelo gestor de trafego.
+  // (O GTM pedido junto ja esta em components/Rastreamento.tsx; nao duplicar.)
+  verification: { google: "r38JVwRptim1u1WydL_R7NPWhYT4d0iTgRhN8Ya7ahI" },
 };
 
 export const viewport: Viewport = {
