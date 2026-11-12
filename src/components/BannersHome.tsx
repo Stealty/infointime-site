@@ -237,6 +237,71 @@ function SlideEntrega({ whatsapp }: { whatsapp: string }) {
   );
 }
 
+// Black Friday: as 3 cadeiras em promocao, 15% a vista. Fotos enviadas pela loja.
+function SlideBlackFriday({ whatsapp }: { whatsapp: string }) {
+  const cadeiras = [
+    { src: "/banners/cadeira-escritorio.webp", nome: "Cadeira de escritório", detalhe: "Tela mesh", giro: "lg:rotate-[-4deg] lg:translate-y-6" },
+    { src: "/banners/cadeira-gamer-mymax.webp", nome: "Cadeira gamer Mymax MX7", detalhe: "Com almofadas", giro: "lg:-translate-y-4 lg:scale-110" },
+    { src: "/banners/cadeira-gamer-tecido.webp", nome: "Cadeira gamer", detalhe: "Em tecido", giro: "lg:rotate-[4deg] lg:translate-y-6" },
+  ];
+  return (
+    <div
+      className={`bg-[#05070d] text-white ${SLIDE} bg-[radial-gradient(40rem_26rem_at_80%_10%,rgb(224_43_32/0.35),transparent_60%),radial-gradient(30rem_22rem_at_0%_100%,rgb(255_198_26/0.16),transparent_60%),radial-gradient(36rem_20rem_at_50%_120%,rgb(12_77_162/0.55),transparent_60%)]`}>
+      <div className={`${MIOLO} grid content-center items-center gap-5 lg:grid-cols-[1fr_1.15fr] lg:gap-10`}>
+        <div className="relative z-10">
+          <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-extrabold uppercase tracking-[0.2em] ring-1 ring-white/20 sm:text-sm">
+            <span className="size-2 animate-pulse rounded-full bg-vermelho" />
+            Black Friday
+          </span>
+          <h2 className="mt-3 text-[32px] font-extrabold leading-[1.02] sm:mt-4 sm:text-5xl lg:mt-5 lg:text-[60px]">
+            Cadeiras com <span className="text-amarelo">15% OFF</span> à vista
+          </h2>
+          <p className="mt-2 max-w-lg text-sm leading-relaxed text-white/75 sm:mt-3 sm:text-lg lg:mt-5">
+            Conforto para trabalhar, estudar e jogar. Desconto no pagamento à vista, enquanto durar o estoque.
+          </p>
+          <div className="mt-4 flex flex-wrap items-center gap-4 sm:mt-5 lg:mt-8">
+            <a
+              data-escolher-loja=""
+              href={linkWhatsApp(whatsapp, "Olá! Quero saber das cadeiras da Black Friday com 15% à vista.")}
+              target="_blank"
+              rel="noopener"
+              className="button button--lg button--danger"
+            >
+              <IconeWhatsApp /> Quero a minha
+            </a>
+            <span className="hidden items-baseline gap-1 font-extrabold sm:flex" aria-hidden>
+              <span className="text-5xl leading-none text-amarelo">15%</span>
+              <span className="text-sm uppercase leading-tight text-white/70">
+                de desconto
+                <br />à vista
+              </span>
+            </span>
+          </div>
+        </div>
+
+        <ul className="relative grid grid-cols-3 gap-2.5 sm:gap-4 lg:gap-5">
+          {cadeiras.map((c, i) => (
+            <li
+              key={c.src}
+              style={{ animationDelay: `${250 + i * 120}ms` }}
+              className={`animate-sobe relative flex flex-col rounded-2xl bg-white p-2 text-marinho shadow-[0_30px_60px_-20px_rgb(0_0_0/0.8)] sm:rounded-3xl sm:p-4 ${c.giro}`}>
+              <span className="absolute -right-2 -top-2 z-10 flex size-11 rotate-12 flex-col items-center justify-center rounded-full bg-vermelho text-white shadow-lg ring-2 ring-white sm:-right-3 sm:-top-3 sm:size-16">
+                <span className="text-sm font-extrabold leading-none sm:text-xl">15%</span>
+                <span className="text-[8px] font-bold uppercase sm:text-[10px]">off</span>
+              </span>
+              <div className="relative h-28 sm:h-32 lg:h-60">
+                <Image src={c.src} alt={c.nome} fill sizes="(min-width: 1024px) 220px, 33vw" className="object-contain" />
+              </div>
+              <p className="mt-2 text-[11px] font-extrabold leading-tight sm:text-sm lg:text-base">{c.nome}</p>
+              <p className="hidden text-xs text-suave sm:block">{c.detalhe}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+}
+
 // Banner de imagem subido no /admin (desktop 1920x600, celular 1080x1080).
 function SlideImagem({ b }: { b: Banner }) {
   const alt = b.titulo || "Promoção Info In Time";
@@ -267,6 +332,7 @@ function SlideImagem({ b }: { b: Banner }) {
 
 export function slidesDaHome(banners: Banner[], whatsapp: string): Slide[] {
   return [
+    { id: "black-friday", nome: "Black Friday: cadeiras com 15% à vista", conteudo: <SlideBlackFriday whatsapp={whatsapp} /> },
     { id: "produtos", nome: "Produtos de informática", conteudo: <SlideProdutos /> },
     { id: "manutencao", nome: "Manutenção de impressoras, computadores, notebooks e nobreaks", conteudo: <SlideManutencao whatsapp={whatsapp} /> },
     { id: "entrega", nome: "Ligou, pediu, chegou", conteudo: <SlideEntrega whatsapp={whatsapp} /> },
