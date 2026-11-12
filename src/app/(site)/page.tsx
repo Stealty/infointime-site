@@ -33,7 +33,7 @@ export const revalidate = 300;
 const VANTAGENS = [
   { icone: IconeSelo, titulo: "30 anos de estrada", texto: "Referência em informática no Sul Fluminense" },
   { icone: IconeLoja, titulo: "3 lojas físicas", texto: "Volta Redonda, Barra Mansa e Arrozal" },
-  { icone: IconeCaminhao, titulo: "Entrega rápida", texto: "VR, Barra Mansa e Pinheiral" },
+  { icone: IconeCaminhao, titulo: "Entrega rápida", texto: "VR, Barra Mansa, Pinheiral e Arrozal" },
   { icone: IconeCartao, titulo: "Pix e cartão", texto: "As principais formas de pagamento" },
 ];
 

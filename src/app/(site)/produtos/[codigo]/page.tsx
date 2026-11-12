@@ -111,7 +111,7 @@ export default async function PaginaProduto({ params }: { params: Params }) {
 
           <div className="mt-8 border-t border-linha pt-5 text-[15px] text-suave">
             <p className="font-semibold text-texto">Entrega rápida</p>
-            <p className="mt-1">Receba em Volta Redonda, Barra Mansa e Pinheiral.</p>
+            <p className="mt-1">Receba em Volta Redonda, Barra Mansa, Pinheiral e Arrozal.</p>
           </div>
         </div>
       </div>

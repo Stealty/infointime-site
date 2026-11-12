@@ -171,7 +171,7 @@ function SlideEntrega({ whatsapp }: { whatsapp: string }) {
   const passos = [
     { icone: IconeTelefone, titulo: "Ligou", texto: "Chama no WhatsApp ou liga para a loja" },
     { icone: IconeCaixa, titulo: "Pediu", texto: "A gente separa e confere o seu pedido" },
-    { icone: IconeCaminhao, titulo: "Chegou", texto: "Entrega rápida em VR, Barra Mansa e Pinheiral" },
+    { icone: IconeCaminhao, titulo: "Chegou", texto: "Entrega rápida em VR, Barra Mansa, Pinheiral e Arrozal" },
   ];
   const cores = ["text-vermelho", "text-amarelo", "text-azul-claro"];
   return (
