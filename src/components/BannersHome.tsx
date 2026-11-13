@@ -320,7 +320,7 @@ function SlideImagem({ b }: { b: Banner }) {
   return (
     <div className={`fundo-marca ${SLIDE} pb-14`}>
       {b.link ? (
-        <a href={b.link} className="block size-full">
+        <a href={b.link} data-metrica={`banner:${alt}`} className="block size-full">
           {img}
         </a>
       ) : (

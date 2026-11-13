@@ -73,6 +73,7 @@ export default function EscolherLoja() {
                   <li key={l.nome} className="animate-sobe" style={{ animationDelay: `${60 + i * 50}ms` }}>
                     <button
                       type="button"
+                      data-metrica={`loja:${l.nome}`}
                       onClick={() => {
                         window.open(`https://wa.me/${l.whatsapp}?text=${encodeURIComponent(texto)}`, "_blank", "noopener");
                         estado.close();

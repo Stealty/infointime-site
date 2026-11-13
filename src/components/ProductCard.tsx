@@ -18,6 +18,7 @@ export default function ProductCard({
   return (
     <Link
       href={`/produtos/${encodeURIComponent(produto.codigo)}`}
+      data-metrica={`produto:${nome}`}
       className="cartao-produto group relative flex flex-col overflow-hidden rounded-cartao bg-white shadow-suave ring-1 ring-linha/70"
     >
       {rotulo ? (
