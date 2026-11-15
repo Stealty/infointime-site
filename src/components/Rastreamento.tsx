@@ -27,7 +27,11 @@ type Escolha = "aceito" | "recusado";
 const CHAVE = "iit_cookies";
 const EVENTO = "iit-cookies";
 
+// Navegador sem armazenamento: a escolha vale so para esta visita, guardada em memoria.
+let emMemoria: Escolha | null | undefined;
+
 function lerEscolha(): Escolha | null {
+  if (emMemoria !== undefined) return emMemoria;
   try {
     const v = window.localStorage.getItem(CHAVE);
     return v === "aceito" || v === "recusado" ? v : null;
@@ -40,8 +44,9 @@ export function gravarEscolha(valor: Escolha | null) {
   try {
     if (valor) window.localStorage.setItem(CHAVE, valor);
     else window.localStorage.removeItem(CHAVE);
+    emMemoria = undefined;
   } catch {
-    // navegador sem armazenamento: vale so para esta visita
+    emMemoria = valor;
   }
   window.dispatchEvent(new CustomEvent(EVENTO));
 }
@@ -110,14 +115,26 @@ export default function Rastreamento() {
   // O site antigo recarregava a pagina a cada clique; aqui a navegacao e pelo
   // Next, entao o PageView da Meta e disparado de novo a cada troca de pagina.
   const pathname = usePathname();
-  const primeira = useRef(true);
+  const ultimaPagina = useRef(pathname);
+  const carregou = useRef(false);
+  // O script do pixel conta sozinho o primeiro carregamento (e o momento do aceite);
+  // aqui so entram as trocas de pagina seguintes.
   useEffect(() => {
-    if (primeira.current) {
-      primeira.current = false;
-      return;
-    }
+    if (ultimaPagina.current === pathname) return;
+    ultimaPagina.current = pathname;
     if (escolha === "aceito") window.fbq?.("track", "PageView");
   }, [pathname, escolha]);
+
+  // Aceite retirado depois de os scripts ja terem rodado: nao ha como "desligar" o GTM e o pixel,
+  // entao a pagina e recarregada sem eles.
+  useEffect(() => {
+    if (escolha === "aceito") {
+      carregou.current = true;
+    } else if (carregou.current && escolha !== undefined) {
+      window.fbq?.("consent", "revoke");
+      window.location.reload();
+    }
+  }, [escolha]);
 
   if (escolha === null) return <AvisoCookies />;
   if (escolha !== "aceito") return null;
