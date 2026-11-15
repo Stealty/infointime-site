@@ -8,6 +8,8 @@ import Script from "next/script";
 // - GTM: dentro dele estao a tag do Google Ads (AW-724939570), o remarketing e as
 //   conversoes. Os acionadores foram feitos para o site antigo e NAO devem ser
 //   mudados daqui: o site novo e que imita o que eles esperam (ver EscolherLoja).
+//   Nao enviar eventos gtm.linkClick manuais: o GTM ja ouve os cliques sozinho
+//   e o evento duplicado conta a conversao duas vezes.
 // - Pixel da Meta: so PageView, como era antes.
 export const GTM_ID = "GTM-T377L3HC";
 const META_PIXEL_ID = "734071987525510";

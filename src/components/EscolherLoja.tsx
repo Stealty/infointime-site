@@ -11,24 +11,12 @@ import { IconeSeta, IconeWhatsApp } from "./Icones";
 //
 // Rastreamento (GTM do gestor de trafego, ver Rastreamento.tsx): a conversao de
 // WhatsApp do Google Ads dispara num "clique em link" cujo endereco contem o
-// numero de Volta Redonda. Como o link e cancelado para abrir esta janela, o GTM
-// nao registra esse clique sozinho; entao o evento e enviado aqui, no mesmo
-// formato que o GTM usaria. Ou seja: a conversao conta no clique do botao, antes
-// de escolher a loja. A escolha da loja nesta janela nao dispara nada (os botoes
-// abrem o WhatsApp por window.open, sem link com numero), para nao contar duas vezes.
-function avisarGtm(link: HTMLAnchorElement) {
-  window.dataLayer?.push({
-    event: "gtm.linkClick",
-    "gtm.element": link,
-    "gtm.elementClasses": link.className,
-    "gtm.elementId": link.id,
-    "gtm.elementTarget": link.target,
-    "gtm.elementUrl": link.href,
-    // vazio = vale para qualquer acionador de clique em link do contêiner
-    "gtm.triggers": "",
-  });
-}
-
+// numero de Volta Redonda. O ouvinte de cliques do proprio GTM ja registra o
+// clique nesses botoes, mesmo com o link cancelado aqui para abrir a janela
+// (o acionador nao usa "Verificar validação"). Por isso NAO se envia nenhum
+// evento manual para o dataLayer: antes era enviado um gtm.linkClick extra e
+// cada clique contava duas conversoes. A escolha da loja nesta janela tambem nao
+// dispara nada (os botoes abrem o WhatsApp por window.open, sem link com numero).
 export default function EscolherLoja() {
   const estado = useOverlayState();
   const [texto, setTexto] = useState("");
@@ -39,7 +27,6 @@ export default function EscolherLoja() {
       const link = (e.target as Element | null)?.closest?.("a[data-escolher-loja]") as HTMLAnchorElement | null;
       if (!link) return;
       e.preventDefault();
-      avisarGtm(link);
       let msg = "";
       try {
         msg = new URL(link.href).searchParams.get("text") ?? "";
