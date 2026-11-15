@@ -14,8 +14,9 @@ export default function PrivacidadePage() {
 
       <h2 className="mt-8 text-xl font-bold">O que este site coleta</h2>
       <p className="mt-3">
-        O site da Info In Time mostra produtos, serviços e os contatos das lojas. Ele não tem cadastro nem
-        formulário: quando você escolhe uma loja, é levado ao WhatsApp e a conversa acontece por lá.
+        O site da Info In Time mostra produtos, serviços e os contatos das lojas. Ele não tem cadastro e
+        não pede dados pessoais: a busca só procura produtos e, quando você escolhe uma loja, é levado ao
+        WhatsApp, onde a conversa acontece.
       </p>
 
       <h2 className="mt-8 text-xl font-bold">Cookies de publicidade e medição</h2>
