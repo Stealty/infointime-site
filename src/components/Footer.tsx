@@ -28,6 +28,7 @@ export default function Footer() {
             <li><Link href="/produtos" className="inline-block py-2 hover:text-white">Produtos</Link></li>
             <li><Link href="/assistencia-tecnica" className="inline-block py-2 hover:text-white">Assistência técnica</Link></li>
             <li><Link href="/nossa-historia" className="inline-block py-2 hover:text-white">Nossa história</Link></li>
+            <li><Link href="/privacidade" className="inline-block py-2 hover:text-white">Privacidade e cookies</Link></li>
           </ul>
         </div>
 
