@@ -1,8 +1,11 @@
+import { dbConfigurado, select } from "@/lib/db";
 import { DISPOSITIVOS, ORIGENS, TIPOS_CLIQUE, type EventoMetrica } from "@/lib/metricas";
 
 // Recebe os eventos de metricas do navegador (components/Metricas.tsx) e repassa ao banco
 // do portal da TaskMind (projeto taskmind-portal, funcao public.svc_iit_coletar).
-// - Sem METRICAS_TOKEN no servidor, nao faz nada (responde 204).
+// - Chave da coleta: env METRICAS_TOKEN ou, sem ela, a linha metricas_token da tabela
+//   it_site_conteudo (banco do site, lida com a service key; nunca vai ao navegador).
+//   Sem chave, nao faz nada (responde 204).
 // - O IP nao e enviado nem guardado. Robos conhecidos sao ignorados.
 // - Sempre responde 204: o visitante nunca ve erro de metrica.
 
@@ -69,13 +72,30 @@ function limpar(x: unknown): EventoMetrica | null {
       tipo: o.tipo as string,
       alvo,
       sec: texto(o.sec, 80) || undefined,
+      ...(o.x !== undefined && o.y !== undefined && o.w !== undefined
+        ? { x: Math.round(Math.max(-2000, Math.min(2000, Number(o.x) || 0))), y: numero(o.y, 1000), w: numero(o.w, 4000) }
+        : {}),
     };
   }
   return null;
 }
 
+async function chaveDaColeta(): Promise<string> {
+  if (process.env.METRICAS_TOKEN) return process.env.METRICAS_TOKEN;
+  if (!dbConfigurado()) return "";
+  try {
+    const [linha] = await select<{ valor: string | null }[]>(
+      "it_site_conteudo?select=valor&chave=eq.metricas_token",
+      { revalidate: 600, tags: ["metricas"] },
+    );
+    return linha?.valor?.trim() ?? "";
+  } catch {
+    return "";
+  }
+}
+
 export async function POST(req: Request) {
-  const token = process.env.METRICAS_TOKEN;
+  const token = await chaveDaColeta();
   if (!token) return vazio();
 
   const ua = req.headers.get("user-agent") || "";

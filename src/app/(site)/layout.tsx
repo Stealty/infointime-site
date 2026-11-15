@@ -3,6 +3,7 @@ import Footer from "@/components/Footer";
 import EscolherLoja from "@/components/EscolherLoja";
 import Rastreamento from "@/components/Rastreamento";
 import Metricas from "@/components/Metricas";
+import AlturaMapa from "@/components/AlturaMapa";
 
 export default function SiteLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -16,6 +17,7 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
       <EscolherLoja />
       <Rastreamento />
       <Metricas />
+      <AlturaMapa />
     </>
   );
 }

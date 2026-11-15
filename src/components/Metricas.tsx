@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { LOJAS } from "@/lib/lojas";
-import { ENDPOINT_METRICAS, type EventoMetrica } from "@/lib/metricas";
+import { ENDPOINT_METRICAS, alturaPagina, emIframe, type EventoMetrica } from "@/lib/metricas";
 
 // Metricas do site para o painel do cliente no portal da TaskMind (ver lib/metricas.ts).
 // - visitante: id aleatorio guardado no navegador; nao identifica a pessoa.
@@ -11,6 +11,8 @@ import { ENDPOINT_METRICAS, type EventoMetrica } from "@/lib/metricas";
 // - tempo: so conta com a aba visivel e alguem mexendo nos ultimos 60 s (ate 30 min por pagina).
 // - cliques: links e botoes. Para dar nome melhor a um clique, use data-metrica="tipo:nome"
 //   (ex.: data-metrica="banner:Black Friday") e, para a secao, data-secao="Nome".
+//   Todo clique (mesmo fora de links) guarda a posicao na pagina para o mapa de cliques.
+// - Dentro de iframe (o proprio mapa de cliques do portal) nada e contado.
 
 const CHAVE_VISITANTE = "iit_v";
 const CHAVE_SESSAO = "iit_s";
@@ -250,21 +252,43 @@ function secaoDe(el: Element) {
   return "Página";
 }
 
+/** Posicao do clique: px a partir do centro da tela, milesimos da altura da pagina e largura. */
+function posicao(ev: MouseEvent) {
+  const doc = document.documentElement;
+  const altura = alturaPagina();
+  return {
+    x: Math.max(-2000, Math.min(2000, Math.round(ev.pageX - doc.clientWidth / 2))),
+    y: Math.max(0, Math.min(1000, Math.round((ev.pageY / altura) * 1000))),
+    w: Math.round(window.innerWidth),
+  };
+}
+
+function descreverArea(alvo: Element | null) {
+  if (!alvo) return "Área da página";
+  if (alvo.closest("img, picture, svg")) return "Imagem";
+  const t = (alvo.textContent || "").replace(/\s+/g, " ").trim();
+  return t ? `Texto: ${t.slice(0, 60)}` : "Área da página";
+}
+
 function aoClicar(ev: MouseEvent) {
   if (!pagina || ev.button !== 0) return;
-  const el = (ev.target as Element | null)?.closest?.(SELETOR) as HTMLElement | null;
+  const alvo = ev.target as Element | null;
+  const el = alvo?.closest?.(SELETOR) as HTMLElement | null;
   marcarAcao();
-  if (!el) return;
   const pg = pagina;
-  const sec = secaoDe(el);
+  const pos = posicao(ev);
+  const cliques: Clique[] = el ? classificar(el) : [{ tipo: "area", alvo: descreverArea(alvo) }];
+  const sec = alvo ? secaoDe(el ?? alvo) : "Página";
   enviar(
-    classificar(el).map((c) => ({
+    cliques.map((c, i) => ({
       t: "clique" as const,
       pg: pg.id,
       c: pg.caminho,
       tipo: c.tipo,
       alvo: c.alvo.slice(0, 120),
       sec,
+      // a posicao vai so no primeiro registro do clique (um clique = um ponto no mapa)
+      ...(i === 0 ? pos : {}),
     })),
   );
 }
@@ -273,7 +297,8 @@ export default function Metricas() {
   const pathname = usePathname();
 
   useEffect(() => {
-    if (navigator.webdriver) return; // robos e navegadores automatizados nao contam
+    // robos, navegadores automatizados e o mapa de cliques (iframe) nao contam
+    if (navigator.webdriver || emIframe()) return;
     const aoRolar = () => {
       marcarAcao();
       if (pagina) pagina.rolagem = Math.max(pagina.rolagem, rolagemAtual());
@@ -303,7 +328,7 @@ export default function Metricas() {
   }, []);
 
   useEffect(() => {
-    if (navigator.webdriver) return;
+    if (navigator.webdriver || emIframe()) return;
     const caminho = pathname || "/";
     // Em desenvolvimento o React roda o efeito duas vezes; nao contar a mesma pagina de novo.
     if (pagina && pagina.caminho === caminho && Date.now() - pagina.inicio < 1500) return;
