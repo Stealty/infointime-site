@@ -21,12 +21,11 @@ import {
   categoriaBonita,
   getBannersAtivos,
   getCategorias,
-  getConteudo,
   getDestaques,
   linkWhatsApp,
   slugCategoria,
 } from "@/lib/site";
-import { HORARIO, LOJAS } from "@/lib/lojas";
+import { escolherLoja, HORARIO, LOJAS } from "@/lib/lojas";
 
 export const revalidate = 300;
 
@@ -38,18 +37,17 @@ const VANTAGENS = [
 ];
 
 export default async function Home() {
-  const [banners, destaques, categorias, tintas, conteudo] = await Promise.all([
+  const [banners, destaques, categorias, tintas] = await Promise.all([
     getBannersAtivos(),
     getDestaques(12),
     getCategorias(),
     buscarProdutos({ categoria: "TINTAS", porPagina: 6 }),
-    getConteudo(),
   ]);
   const atalhos = categorias.filter((c) => c.categoria !== "OUTROS").slice(0, 10);
 
   return (
     <>
-      <HeroCarousel slides={slidesDaHome(banners, conteudo.whatsapp)} />
+      <HeroCarousel slides={slidesDaHome(banners)} />
 
       <div className="mx-auto max-w-7xl px-4">
         <Revelar>
@@ -129,10 +127,7 @@ export default async function Home() {
                 Conhecer a assistência
               </Link>
               <a
-                data-escolher-loja=""
-                href={linkWhatsApp(conteudo.whatsapp, "Olá! Preciso de manutenção em um equipamento.")}
-                target="_blank"
-                rel="noopener"
+                {...escolherLoja("Olá! Preciso de manutenção em um equipamento.")}
                 className="button button--lg button--vidro"
               >
                 <IconeWhatsApp /> Falar com a equipe

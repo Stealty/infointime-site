@@ -2,7 +2,8 @@ import Link from "next/link";
 import Image, { getImageProps } from "next/image";
 import type { Slide } from "./HeroCarousel";
 import { IconeCaixa, IconeCaminhao, IconeTelefone, IconeWhatsApp } from "./Icones";
-import { linkWhatsApp, type Banner } from "@/lib/site";
+import { type Banner } from "@/lib/site";
+import { escolherLoja } from "@/lib/lojas";
 
 // Os 3 banners fixos do topo da home. As fotos ficam em /public/banners (fotos do
 // catalogo recortadas; processador, notebook e impressora laser sao desenhos, porque
@@ -94,7 +95,7 @@ function Painel({
   texto: string;
   itens: string[];
   fotos: { src: string; alt: string; className: string }[];
-  acao: { href: string; texto: string; zap?: boolean };
+  acao: { href?: string; texto: string; zap?: string };
 }) {
   return (
     <article className={`relative flex min-h-0 overflow-hidden rounded-3xl shadow-[0_30px_60px_-30px_rgb(0_0_0/0.6)] ring-1 ring-white/10 ${cor}`}>
@@ -112,8 +113,7 @@ function Painel({
           ))}
         </ul>
         <a
-          href={acao.href}
-          {...(acao.zap ? { "data-escolher-loja": "", target: "_blank", rel: "noopener" } : {})}
+          {...(acao.zap ? escolherLoja(acao.zap) : { href: acao.href })}
           className="button button--sm button--claro mt-3 w-fit sm:mt-4 lg:mt-6"
         >
           {acao.zap ? <IconeWhatsApp className="size-4" /> : null}
@@ -129,7 +129,7 @@ function Painel({
   );
 }
 
-function SlideManutencao({ whatsapp }: { whatsapp: string }) {
+function SlideManutencao() {
   return (
     <div className={`bg-marinho-escuro text-white ${SLIDE}`}>
       <div className={`${MIOLO} grid grid-rows-2 gap-3 pt-4 sm:gap-4 sm:pt-6 lg:grid-cols-2 lg:grid-rows-1 lg:pt-8`}>
@@ -144,9 +144,8 @@ function SlideManutencao({ whatsapp }: { whatsapp: string }) {
             { src: "/banners/impressora-laser.webp", alt: "Impressora laser monocromática", className: "bottom-[8%] left-[2%] size-24 rotate-[-5deg] sm:size-28 lg:bottom-[12%] lg:size-40" },
           ]}
           acao={{
-            href: linkWhatsApp(whatsapp, "Olá! Preciso de manutenção na minha impressora."),
             texto: "Pedir orçamento",
-            zap: true,
+            zap: "Olá! Preciso de manutenção na minha impressora.",
           }}
         />
         <Painel
@@ -167,7 +166,7 @@ function SlideManutencao({ whatsapp }: { whatsapp: string }) {
   );
 }
 
-function SlideEntrega({ whatsapp }: { whatsapp: string }) {
+function SlideEntrega() {
   const passos = [
     { icone: IconeTelefone, titulo: "Ligou", texto: "Chama no WhatsApp ou liga para a loja" },
     { icone: IconeCaixa, titulo: "Pediu", texto: "A gente separa e confere o seu pedido" },
@@ -206,10 +205,7 @@ function SlideEntrega({ whatsapp }: { whatsapp: string }) {
           </ol>
           <div className="mt-6 flex flex-wrap gap-3">
             <a
-              data-escolher-loja=""
-              href={linkWhatsApp(whatsapp, "Olá! Quero fazer um pedido para entrega.")}
-              target="_blank"
-              rel="noopener"
+              {...escolherLoja("Olá! Quero fazer um pedido para entrega.")}
               className="button button--lg button--zap"
             >
               <IconeWhatsApp /> Pedir pelo WhatsApp
@@ -238,7 +234,7 @@ function SlideEntrega({ whatsapp }: { whatsapp: string }) {
 }
 
 // Black Friday: as 3 cadeiras em promocao, 15% a vista. Fotos enviadas pela loja.
-function SlideBlackFriday({ whatsapp }: { whatsapp: string }) {
+function SlideBlackFriday() {
   const cadeiras = [
     { src: "/banners/cadeira-escritorio.webp", nome: "Cadeira de escritório", detalhe: "Tela mesh", giro: "lg:rotate-[-4deg] lg:translate-y-6" },
     { src: "/banners/cadeira-gamer-mymax.webp", nome: "Cadeira gamer Mymax MX7", detalhe: "Com almofadas", giro: "lg:-translate-y-4 lg:scale-110" },
@@ -261,10 +257,7 @@ function SlideBlackFriday({ whatsapp }: { whatsapp: string }) {
           </p>
           <div className="mt-4 flex flex-wrap items-center gap-4 sm:mt-5 lg:mt-8">
             <a
-              data-escolher-loja=""
-              href={linkWhatsApp(whatsapp, "Olá! Quero saber das cadeiras da Black Friday com 15% à vista.")}
-              target="_blank"
-              rel="noopener"
+              {...escolherLoja("Olá! Quero saber das cadeiras da Black Friday com 15% à vista.")}
               className="button button--lg button--danger"
             >
               <IconeWhatsApp /> Quero a minha
@@ -330,12 +323,12 @@ function SlideImagem({ b }: { b: Banner }) {
   );
 }
 
-export function slidesDaHome(banners: Banner[], whatsapp: string): Slide[] {
+export function slidesDaHome(banners: Banner[]): Slide[] {
   return [
-    { id: "black-friday", nome: "Black Friday: cadeiras com 15% à vista", conteudo: <SlideBlackFriday whatsapp={whatsapp} /> },
+    { id: "black-friday", nome: "Black Friday: cadeiras com 15% à vista", conteudo: <SlideBlackFriday /> },
     { id: "produtos", nome: "Produtos de informática", conteudo: <SlideProdutos /> },
-    { id: "manutencao", nome: "Manutenção de impressoras, computadores, notebooks e nobreaks", conteudo: <SlideManutencao whatsapp={whatsapp} /> },
-    { id: "entrega", nome: "Ligou, pediu, chegou", conteudo: <SlideEntrega whatsapp={whatsapp} /> },
+    { id: "manutencao", nome: "Manutenção de impressoras, computadores, notebooks e nobreaks", conteudo: <SlideManutencao /> },
+    { id: "entrega", nome: "Ligou, pediu, chegou", conteudo: <SlideEntrega /> },
     ...banners.map((b) => ({ id: `banner-${b.id}`, nome: b.titulo || "Promoção", conteudo: <SlideImagem b={b} /> })),
   ];
 }

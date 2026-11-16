@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import ProductCard from "@/components/ProductCard";
-import { buscarProdutos, categoriaBonita, getCategorias, getConteudo, linkWhatsApp } from "@/lib/site";
+import { buscarProdutos, categoriaBonita, getCategorias } from "@/lib/site";
+import { escolherLoja } from "@/lib/lojas";
 import { IconeWhatsApp } from "@/components/Icones";
 
 export const metadata: Metadata = {
@@ -35,10 +36,9 @@ export default async function Produtos({ searchParams }: { searchParams: SP }) {
   const ordenado = ordem !== "relevancia";
   const pagina = Math.max(1, Number(sp.pagina) || 1);
 
-  const [{ itens, total }, categorias, conteudo] = await Promise.all([
+  const [{ itens, total }, categorias] = await Promise.all([
     buscarProdutos({ busca: q, categoria: cat, ordem, pagina, porPagina: POR_PAGINA }),
     getCategorias(),
-    getConteudo(),
   ]);
   const paginas = Math.max(1, Math.ceil(total / POR_PAGINA));
   const base = { q: q || undefined, cat: cat || undefined, ordem: ordem !== "relevancia" ? ordem : undefined };
@@ -130,10 +130,7 @@ export default async function Produtos({ searchParams }: { searchParams: SP }) {
                 Nem tudo que temos na loja aparece aqui. Mande uma mensagem que a equipe confere para você.
               </p>
               <a
-                data-escolher-loja=""
-                href={linkWhatsApp(conteudo.whatsapp, q ? `Olá! Vocês têm ${q}?` : "Olá! Vim pelo site da Info In Time.")}
-                target="_blank"
-                rel="noopener"
+                {...escolherLoja(q ? `Olá! Vocês têm ${q}?` : "Olá! Vim pelo site da Info In Time.")}
                 className="button button--lg button--zap mt-5"
               >
                 <IconeWhatsApp /> Perguntar no WhatsApp
