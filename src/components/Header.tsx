@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
-import { getCategorias, getConteudo, categoriaBonita, slugCategoria, linkWhatsApp } from "@/lib/site";
+import { getCategorias, getConteudo, categoriaBonita, slugCategoria } from "@/lib/site";
+import { escolherLoja } from "@/lib/lojas";
 import { IconeBusca, IconeWhatsApp } from "./Icones";
 import MenuMobile from "./MenuMobile";
 
@@ -13,7 +14,7 @@ const NAV = [
 
 export default async function Header() {
   const [conteudo, categorias] = await Promise.all([getConteudo(), getCategorias()]);
-  const zap = linkWhatsApp(conteudo.whatsapp, "Olá! Vim pelo site da Info In Time.");
+  const zap = "Olá! Vim pelo site da Info In Time.";
   const principais = categorias.filter((c) => c.categoria !== "OUTROS").slice(0, 12);
   const itensCategoria = principais.map((c) => ({
     href: `/produtos?cat=${slugCategoria(c.categoria)}`,
@@ -77,7 +78,7 @@ export default async function Header() {
             ))}
           </nav>
 
-          <a data-escolher-loja="" href={zap} target="_blank" rel="noopener" className="button button--zap shrink-0 max-sm:px-3" aria-label="WhatsApp">
+          <a {...escolherLoja(zap)} className="button button--zap shrink-0 max-sm:px-3" aria-label="WhatsApp">
             <IconeWhatsApp />
             <span className="hidden sm:inline">WhatsApp</span>
           </a>

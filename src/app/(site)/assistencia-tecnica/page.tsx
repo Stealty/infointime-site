@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import { getConteudo, linkWhatsApp } from "@/lib/site";
-import { LOJAS } from "@/lib/lojas";
+import { escolherLoja, LOJAS } from "@/lib/lojas";
 import { IconeBateria, IconeComputador, IconeImpressora, IconeNotebook, IconeWhatsApp } from "@/components/Icones";
 
 export const metadata: Metadata = {
@@ -56,8 +55,7 @@ const PASSOS = [
 ];
 
 export default async function Assistencia() {
-  const conteudo = await getConteudo();
-  const zap = linkWhatsApp(conteudo.whatsapp, "Olá! Preciso de manutenção. O problema é: ");
+  const zap = "Olá! Preciso de manutenção. O problema é: ";
 
   return (
     <>
@@ -69,9 +67,7 @@ export default async function Assistencia() {
             Manutenção de impressoras, notebooks, computadores e nobreaks, com a experiência de 30 anos atendendo o Sul Fluminense.
           </p>
           <a
-            data-escolher-loja="" href={zap}
-            target="_blank"
-            rel="noopener"
+            {...escolherLoja(zap)}
             className="button button--lg button--zap mt-8 h-14 px-8 text-lg"
           >
             <IconeWhatsApp /> Descrever o problema
@@ -121,10 +117,7 @@ export default async function Assistencia() {
                     />
                   </div>
                   <a
-                    data-escolher-loja=""
-                    href={linkWhatsApp(conteudo.whatsapp, e.mensagem)}
-                    target="_blank"
-                    rel="noopener"
+                    {...escolherLoja(e.mensagem)}
                     className="button button--zap button--full-width mt-3"
                   >
                     <IconeWhatsApp /> {e.botao}
@@ -170,7 +163,7 @@ export default async function Assistencia() {
               </ul>
             </div>
             <div className="flex flex-wrap gap-3 lg:justify-end">
-              <a data-escolher-loja="" href={zap} target="_blank" rel="noopener" className="button button--lg button--claro">
+              <a {...escolherLoja(zap)} className="button button--lg button--claro">
                 <IconeWhatsApp /> Falar com a equipe
               </a>
               <Link href="/produtos" className="button button--lg button--vidro">

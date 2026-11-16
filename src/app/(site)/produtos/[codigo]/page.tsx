@@ -4,13 +4,12 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import ProductCard from "@/components/ProductCard";
 import { IconeCaixa, IconeWhatsApp } from "@/components/Icones";
+import { escolherLoja } from "@/lib/lojas";
 import {
   buscarProdutos,
   categoriaBonita,
   formatarPreco,
-  getConteudo,
   getProduto,
-  linkWhatsApp,
   nomeBonito,
   slugCategoria,
 } from "@/lib/site";
@@ -34,7 +33,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
 export default async function PaginaProduto({ params }: { params: Params }) {
   const { codigo } = await params;
   const cod = decodeURIComponent(codigo);
-  const [p, conteudo] = await Promise.all([getProduto(cod), getConteudo()]);
+  const p = await getProduto(cod);
   if (!p) notFound();
 
   const nome = nomeBonito(p.nome);
@@ -83,10 +82,7 @@ export default async function PaginaProduto({ params }: { params: Params }) {
           <p className="mt-1 text-sm text-suave">Em estoque. Preço sujeito a alteração, confirme pelo WhatsApp.</p>
 
           <a
-            data-escolher-loja=""
-            href={linkWhatsApp(conteudo.whatsapp, msg)}
-            target="_blank"
-            rel="noopener"
+            {...escolherLoja(msg)}
             className="button button--lg button--zap mt-8 h-14 px-8 text-lg sm:self-start"
           >
             <IconeWhatsApp /> Pedir pelo WhatsApp
@@ -99,10 +95,7 @@ export default async function PaginaProduto({ params }: { params: Params }) {
               <span className="block text-2xl font-extrabold leading-tight text-marinho estreito">{formatarPreco(Number(p.preco))}</span>
             </p>
             <a
-              data-escolher-loja=""
-              href={linkWhatsApp(conteudo.whatsapp, msg)}
-              target="_blank"
-              rel="noopener"
+              {...escolherLoja(msg)}
               className="button button--zap h-12 shrink-0 px-5"
             >
               <IconeWhatsApp /> Pedir

@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Drawer, useOverlayState } from "@heroui/react";
 import { IconeMenu, IconeWhatsApp, IconeSeta } from "./Icones";
+import { escolherLoja } from "@/lib/lojas";
 
 type Item = { href: string; label: string };
 
@@ -79,7 +80,7 @@ export default function MenuMobile({
             </Drawer.Body>
 
             <Drawer.Footer className="border-t border-linha p-4">
-              <a data-escolher-loja="" href={zap} target="_blank" rel="noopener" onClick={fechar} className="button button--lg button--zap button--full-width">
+              <a {...escolherLoja(zap)} onClick={fechar} className="button button--lg button--zap button--full-width">
                 <IconeWhatsApp /> Falar no WhatsApp
               </a>
             </Drawer.Footer>
