@@ -7,7 +7,7 @@ import { IconeBateria, IconeComputador, IconeImpressora, IconeNotebook, IconeWha
 export const metadata: Metadata = {
   title: "Assistência técnica",
   description:
-    "Manutenção de impressoras, notebooks, computadores e nobreaks em Volta Redonda e Barra Mansa. Fale com a equipe técnica da Info In Time.",
+    "Manutenção de impressoras, notebooks, computadores e nobreaks em Volta Redonda, Barra Mansa e Arrozal. Fale com a equipe técnica da Info In Time.",
 };
 
 const SERVICOS = [

@@ -19,7 +19,7 @@ const SITE = process.env.NEXT_PUBLIC_SITE_URL || "https://infointime.com.br";
 export const metadata: Metadata = {
   metadataBase: new URL(SITE),
   title: {
-    default: "Info In Time | Loja de informática em Volta Redonda e Barra Mansa",
+    default: "Info In Time | Loja de informática em Volta Redonda, Barra Mansa e Arrozal",
     template: "%s | Info In Time",
   },
   description:
