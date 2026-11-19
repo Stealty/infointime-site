@@ -48,9 +48,3 @@ export function escolherLoja(texto: string) {
   return { href: "/#lojas", "data-escolher-loja": texto };
 }
 
-// Endereco completo da pagina do produto, para ir dentro das mensagens de
-// WhatsApp: o WhatsApp so monta a previa com a foto quando o link e absoluto.
-const SITE = (process.env.NEXT_PUBLIC_SITE_URL || "https://infointime.com.br").replace(/\/$/, "");
-export function linkProduto(codigo: string) {
-  return `${SITE}/produtos/${encodeURIComponent(codigo)}`;
-}

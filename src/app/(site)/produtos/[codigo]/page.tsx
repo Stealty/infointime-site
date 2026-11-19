@@ -5,7 +5,8 @@ import { notFound } from "next/navigation";
 import ProductCard from "@/components/ProductCard";
 import BotaoAdicionar from "@/components/carrinho/BotaoAdicionar";
 import { IconeCaixa, IconeWhatsApp } from "@/components/Icones";
-import { escolherLoja, linkProduto } from "@/lib/lojas";
+import { escolherLoja } from "@/lib/lojas";
+import { linkProduto } from "@/lib/links";
 import {
   buscarProdutos,
   categoriaBonita,
