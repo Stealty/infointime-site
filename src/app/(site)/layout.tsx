@@ -13,7 +13,7 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
         Pular para o conteúdo
       </a>
       <Header />
-      <main id="conteudo">{children}</main>
+      <main id="conteudo" className="overflow-x-clip">{children}</main>
       <Footer />
       <GavetaCarrinho />
       <EscolherLoja />
