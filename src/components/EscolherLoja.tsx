@@ -11,14 +11,18 @@ import { IconeSeta, IconeWhatsApp } from "./Icones";
 // botao leva para a lista de lojas da home.
 //
 // Rastreamento (GTM do gestor de trafego, ver Rastreamento.tsx): as conversoes
-// de WhatsApp disparam no "clique em link", com os mesmos criterios da secao
-// "Nossas lojas" da home: Volta Redonda pelo numero no endereco do link, Barra
-// Mansa pelo texto "Info in Time Barra Mansa" no link; Arrozal nao tem conversao.
-// Por isso:
+// de WhatsApp disparam no "clique em link" (gtm.linkClick), com os mesmos
+// criterios da secao "Nossas lojas" da home: o numero da loja no endereco do
+// link (Volta Redonda 5524988138858, Barra Mansa 5524988136426); Arrozal nao
+// tem conversao. Por isso:
 // - o botao geral NAO tem numero no link (antes tinha o de Volta Redonda e todo
 //   clique contava como VR, mesmo quando a pessoa escolhia outra loja);
 // - cada loja desta janela e um link de verdade para o WhatsApp dela, e o
 //   ouvinte de cliques do proprio GTM conta a conversao da loja escolhida.
+// - o Modal.Backdrop do HeroUI chama stopPropagation em todo clique, e como a
+//   janela fica num portal no <body> o clique nunca chegava ao document, onde o
+//   GTM ouve "clique em link" (so o gtm.click, que ouve na captura, passava).
+//   O ouvinte de captura abaixo anula essa parada so nos links das lojas.
 // Nao enviar eventos manuais para o dataLayer: o GTM ja ouve os cliques sozinho
 // e o evento duplicado conta a conversao duas vezes.
 export default function EscolherLoja() {
@@ -37,6 +41,16 @@ export default function EscolherLoja() {
     document.addEventListener("click", aoClicar);
     return () => document.removeEventListener("click", aoClicar);
   }, [estado]);
+
+  useEffect(() => {
+    // Roda na captura, antes do React (que trata o portal no <body>): deixa o
+    // clique numa loja seguir ate o document para o GTM contar a conversao.
+    function liberarClique(e: MouseEvent) {
+      if ((e.target as Element | null)?.closest?.("a[data-loja-whatsapp]")) e.stopPropagation = () => {};
+    }
+    document.addEventListener("click", liberarClique, true);
+    return () => document.removeEventListener("click", liberarClique, true);
+  }, []);
 
   return (
     <Modal state={estado}>
@@ -63,6 +77,7 @@ export default function EscolherLoja() {
                       target="_blank"
                       rel="noopener"
                       data-metrica={`loja:${l.nome}`}
+                      data-loja-whatsapp=""
                       onClick={() => estado.close()}
                       // [&_*]:pointer-events-none: o clique cai sempre no proprio link,
                       // que e onde o GTM le o endereco e o texto (igual a home).
@@ -76,7 +91,7 @@ export default function EscolherLoja() {
                         <span className="block truncate text-sm text-suave">{l.endereco}</span>
                       </span>
                       <IconeSeta className="size-4 shrink-0 text-suave transition-transform group-hover:translate-x-0.5" />
-                      {/* Texto que o GTM usa para contar a conversao de Barra Mansa. */}
+                      {/* Criterio de Barra Mansa nas versoes antigas do GTM (hoje e pelo numero). */}
                       {l.nome === "Barra Mansa" ? <span className="sr-only">Info in Time Barra Mansa</span> : null}
                     </a>
                   </li>
