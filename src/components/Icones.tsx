@@ -210,3 +210,35 @@ export const IconeTelefone = ({ className = "size-6" }: P) => (
     <path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2" />
   </svg>
 );
+
+export const IconeCarrinho = ({ className = "size-5" }: P) => (
+  <svg viewBox="0 0 24 24" className={className} {...base}>
+    <circle cx="9" cy="20" r="1.4" />
+    <circle cx="18" cy="20" r="1.4" />
+    <path d="M2.5 3.5h2.6l2.4 11.2a1.6 1.6 0 0 0 1.6 1.3h8.6a1.6 1.6 0 0 0 1.6-1.2l1.7-7.3H6.1" />
+  </svg>
+);
+
+export const IconeMais = ({ className = "size-4" }: P) => (
+  <svg viewBox="0 0 24 24" className={className} {...base}>
+    <path d="M12 5v14M5 12h14" />
+  </svg>
+);
+
+export const IconeMenos = ({ className = "size-4" }: P) => (
+  <svg viewBox="0 0 24 24" className={className} {...base}>
+    <path d="M5 12h14" />
+  </svg>
+);
+
+export const IconeLixeira = ({ className = "size-4" }: P) => (
+  <svg viewBox="0 0 24 24" className={className} {...base}>
+    <path d="M4 7h16M10 11v6M14 11v6M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12M9 7V4h6v3" />
+  </svg>
+);
+
+export const IconeCheck = ({ className = "size-4" }: P) => (
+  <svg viewBox="0 0 24 24" className={className} {...base}>
+    <path d="m5 12.5 4.5 4.5L19 7.5" />
+  </svg>
+);

@@ -1,7 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import { type Produto, formatarPreco, nomeBonito, categoriaBonita } from "@/lib/site";
-import { IconeCaixa, IconeSeta } from "./Icones";
+import { IconeCaixa } from "./Icones";
+import BotaoAdicionar from "./carrinho/BotaoAdicionar";
 
 export default function ProductCard({
   produto,
@@ -15,12 +16,15 @@ export default function ProductCard({
 }) {
   const nome = nomeBonito(produto.nome);
   const [reais, centavos] = formatarPreco(Number(produto.preco)).replace("R$", "").trim().split(",");
+  // O botao Adicionar fica fora do link (botao dentro de link nao e HTML valido e
+  // o toque nele abriria o produto). O link cobre foto, nome e preco.
   return (
-    <Link
-      href={`/produtos/${encodeURIComponent(produto.codigo)}`}
-      data-metrica={`produto:${nome}`}
-      className="cartao-produto group relative flex flex-col overflow-hidden rounded-cartao bg-white shadow-suave ring-1 ring-linha/70"
-    >
+    <div className="cartao-produto group relative flex flex-col overflow-hidden rounded-cartao bg-white shadow-suave ring-1 ring-linha/70">
+      <Link
+        href={`/produtos/${encodeURIComponent(produto.codigo)}`}
+        data-metrica={`produto:${nome}`}
+        className="flex flex-1 flex-col"
+      >
       {rotulo ? (
         <span className="chip chip--sm absolute left-3 top-3 z-10 bg-amarelo font-bold text-marinho shadow-sm">{rotulo}</span>
       ) : null}
@@ -43,7 +47,7 @@ export default function ProductCard({
           </div>
         )}
       </div>
-      <div className="flex flex-1 flex-col px-4 pb-4 pt-3">
+      <div className="flex flex-1 flex-col px-4 pb-3 pt-3">
         <span className="text-[12px] font-medium text-azul">{categoriaBonita(produto.categoria)}</span>
         <h3 className="mt-1 line-clamp-2 min-h-[2.6em] text-[15px] font-medium leading-snug text-texto" style={{ fontStretch: "100%", letterSpacing: 0 }}>
           {nome}
@@ -54,12 +58,14 @@ export default function ProductCard({
             <span className="text-[28px]">{reais}</span>
             <span className="align-top text-sm">,{centavos}</span>
           </p>
-          <span className="flex size-9 items-center justify-center rounded-full bg-fundo text-azul transition-all duration-300 group-hover:bg-azul group-hover:text-white">
-            <IconeSeta className="size-4" />
-            <span className="sr-only">Ver produto</span>
-          </span>
         </div>
       </div>
-    </Link>
+      </Link>
+      <div className="px-3 pb-3 sm:px-4 sm:pb-4">
+        <BotaoAdicionar
+          produto={{ codigo: produto.codigo, nome: produto.nome, preco: Number(produto.preco), foto_url: produto.foto_url }}
+        />
+      </div>
+    </div>
   );
 }

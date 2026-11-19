@@ -4,6 +4,7 @@ import { getCategorias, getConteudo, categoriaBonita, slugCategoria } from "@/li
 import { escolherLoja } from "@/lib/lojas";
 import { IconeBusca, IconeWhatsApp } from "./Icones";
 import MenuMobile from "./MenuMobile";
+import { BotaoCarrinho } from "./carrinho/Carrinho";
 
 const NAV = [
   { href: "/produtos", label: "Produtos" },
@@ -77,6 +78,8 @@ export default async function Header() {
               </Link>
             ))}
           </nav>
+
+          <BotaoCarrinho />
 
           <a {...escolherLoja(zap)} className="button button--zap shrink-0 max-sm:px-3" aria-label="WhatsApp">
             <IconeWhatsApp />

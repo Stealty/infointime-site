@@ -3,7 +3,7 @@ import Link from "next/link";
 import ProductCard from "@/components/ProductCard";
 import { buscarProdutos, categoriaBonita, getCategorias } from "@/lib/site";
 import { escolherLoja } from "@/lib/lojas";
-import { IconeWhatsApp } from "@/components/Icones";
+import { IconeCarrinho, IconeWhatsApp } from "@/components/Icones";
 
 export const metadata: Metadata = {
   title: "Produtos",
@@ -84,6 +84,17 @@ export default async function Produtos({ searchParams }: { searchParams: SP }) {
           ))}
         </nav>
       </div>
+
+      {/* Explica o carrinho logo no catalogo: muita gente so conhece o "chama no zap". */}
+      <p className="mt-5 flex items-center gap-3 rounded-2xl bg-white px-4 py-3 text-[15px] text-suave shadow-suave ring-1 ring-linha/70">
+        <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-azul/10 text-azul">
+          <IconeCarrinho />
+        </span>
+        <span>
+          <b className="text-texto">Monte seu pedido:</b> toque em <b className="text-azul">Adicionar</b> nos produtos e,
+          no carrinho, envie a lista inteira pelo WhatsApp.
+        </span>
+      </p>
 
       <div className="mt-6 grid gap-8 lg:grid-cols-[230px_1fr]">
         <aside className="hidden self-start rounded-cartao bg-white p-4 shadow-suave ring-1 ring-linha/70 lg:sticky lg:top-40 lg:block">
