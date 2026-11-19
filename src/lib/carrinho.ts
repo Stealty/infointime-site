@@ -2,6 +2,7 @@
 
 import { useSyncExternalStore } from "react";
 import { formatarPreco, nomeBonito } from "./formatar";
+import { linkProduto } from "./lojas";
 
 // Carrinho do site: so no navegador (localStorage), sem conta, sem pagamento.
 // O cliente junta os produtos e manda a lista inteira para a loja pelo WhatsApp,
@@ -132,11 +133,13 @@ export const carrinho = {
 };
 
 // Mensagem que vai para o WhatsApp. Uma linha por produto com o codigo, para a
-// equipe (e a Bianca) acharem cada item no sistema sem perguntar nada.
+// equipe (e a Bianca) acharem cada item no sistema sem perguntar nada, e o link
+// do produto embaixo: tocando nele a loja ve a foto (o WhatsApp tambem mostra a
+// previa com a foto do primeiro link da mensagem).
 export function mensagemPedido(itens: ItemCarrinho[]) {
   const linhas = itens.map(
     (i, n) =>
-      `${n + 1}. ${i.qtd}x ${nomeBonito(i.nome)} (cód. ${i.codigo}) - ${formatarPreco(i.preco)}${i.qtd > 1 ? " cada" : ""}`,
+      `${n + 1}. ${i.qtd}x ${nomeBonito(i.nome)} (cód. ${i.codigo}) - ${formatarPreco(i.preco)}${i.qtd > 1 ? " cada" : ""}\n   ${linkProduto(i.codigo)}`,
   );
   return [
     "Olá! Montei este pedido no site da Info In Time:",
