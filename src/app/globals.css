@@ -194,6 +194,10 @@ a.button {
   body:has(.barra-pedido) {
     padding-bottom: 76px;
   }
+  /* Aviso "Adicionado ao carrinho" fica acima da barra, sem cobrir o botao Pedir. */
+  body:has(.barra-pedido) .aviso-carrinho {
+    bottom: 72px;
+  }
 }
 
 /* Cartao de produto */

@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import ProductCard from "@/components/ProductCard";
+import BotaoAdicionar from "@/components/carrinho/BotaoAdicionar";
 import { IconeCaixa, IconeWhatsApp } from "@/components/Icones";
 import { escolherLoja } from "@/lib/lojas";
 import {
@@ -40,6 +41,7 @@ export default async function PaginaProduto({ params }: { params: Params }) {
   const relacionados = (await buscarProdutos({ categoria: p.categoria, porPagina: 7 })).itens
     .filter((x) => x.codigo !== p.codigo)
     .slice(0, 6);
+  const item = { codigo: p.codigo, nome: p.nome, preco: Number(p.preco), foto_url: p.foto_url };
   const msg = `Olá! Tenho interesse no produto ${p.nome} (cód. ${p.codigo}) que vi no site.`;
 
   return (
@@ -81,12 +83,19 @@ export default async function PaginaProduto({ params }: { params: Params }) {
           <p className="mt-6 text-5xl font-extrabold estreito text-marinho">{formatarPreco(Number(p.preco))}</p>
           <p className="mt-1 text-sm text-suave">Em estoque. Preço sujeito a alteração, confirme pelo WhatsApp.</p>
 
-          <a
-            {...escolherLoja(msg)}
-            className="button button--lg button--zap mt-8 h-14 px-8 text-lg sm:self-start"
-          >
-            <IconeWhatsApp /> Pedir pelo WhatsApp
-          </a>
+          {/* Dois caminhos: juntar com outros produtos no carrinho, ou pedir so este agora. */}
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+            <BotaoAdicionar produto={item} tamanho="pagina" />
+            <a
+              {...escolherLoja(msg)}
+              className="button button--lg button--zap h-14 w-full px-8 text-lg sm:w-auto"
+            >
+              <IconeWhatsApp /> Pedir só este
+            </a>
+          </div>
+          <p className="mt-3 text-sm text-suave">
+            Vai levar mais coisas? Adicione ao carrinho e envie tudo numa mensagem só.
+          </p>
 
           {/* No celular o botao principal fica abaixo da dobra: barra fixa com preco e pedido. */}
           <div className="barra-pedido fixed inset-x-0 bottom-0 z-30 flex items-center gap-3 border-t border-linha bg-white/95 px-4 py-3 shadow-[0_-8px_24px_-12px_rgb(10_42_92/0.25)] backdrop-blur-md md:hidden">
@@ -94,6 +103,7 @@ export default async function PaginaProduto({ params }: { params: Params }) {
               <span className="block truncate text-xs text-suave">{nome}</span>
               <span className="block text-2xl font-extrabold leading-tight text-marinho estreito">{formatarPreco(Number(p.preco))}</span>
             </p>
+            <BotaoAdicionar produto={item} tamanho="barra" />
             <a
               {...escolherLoja(msg)}
               className="button button--zap h-12 shrink-0 px-5"
