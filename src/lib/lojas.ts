@@ -47,3 +47,4 @@ export const REDES = {
 export function escolherLoja(texto: string) {
   return { href: "/#lojas", "data-escolher-loja": texto };
 }
+

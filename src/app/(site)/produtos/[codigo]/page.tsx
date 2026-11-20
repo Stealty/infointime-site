@@ -6,6 +6,7 @@ import ProductCard from "@/components/ProductCard";
 import BotaoAdicionar from "@/components/carrinho/BotaoAdicionar";
 import { IconeCaixa, IconeWhatsApp } from "@/components/Icones";
 import { escolherLoja } from "@/lib/lojas";
+import { linkProduto } from "@/lib/links";
 import {
   buscarProdutos,
   categoriaBonita,
@@ -24,10 +25,23 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   const p = await getProduto(decodeURIComponent(codigo));
   if (!p) return { title: "Produto indisponível" };
   const nome = nomeBonito(p.nome);
+  const descricao = `${nome} por ${formatarPreco(Number(p.preco))} na Info In Time.`;
+  // Estas tags montam a previa (foto + nome + preco) quando o link do produto
+  // vai numa conversa do WhatsApp. O openGraph da pagina substitui o do layout
+  // inteiro, entao locale/siteName/title precisam vir aqui de novo.
   return {
     title: nome,
-    description: `${nome} por ${formatarPreco(Number(p.preco))} na Info In Time.`,
-    openGraph: p.foto_url ? { images: [p.foto_url] } : undefined,
+    description: descricao,
+    alternates: { canonical: `/produtos/${encodeURIComponent(p.codigo)}` },
+    openGraph: {
+      type: "website",
+      locale: "pt_BR",
+      siteName: "Info In Time",
+      title: nome,
+      description: descricao,
+      url: `/produtos/${encodeURIComponent(p.codigo)}`,
+      images: p.foto_url ? [{ url: p.foto_url, alt: nome }] : undefined,
+    },
   };
 }
 
@@ -42,7 +56,10 @@ export default async function PaginaProduto({ params }: { params: Params }) {
     .filter((x) => x.codigo !== p.codigo)
     .slice(0, 6);
   const item = { codigo: p.codigo, nome: p.nome, preco: Number(p.preco), foto_url: p.foto_url };
-  const msg = `Olá! Tenho interesse no produto ${p.nome} (cód. ${p.codigo}) que vi no site.`;
+  // O wa.me so aceita texto, nao da para anexar a foto. Com o link do produto na
+  // mensagem, o WhatsApp mostra a previa com a foto (tags openGraph acima) e a
+  // loja ainda pode tocar no link para ver o produto.
+  const msg = `Olá! Tenho interesse no produto ${p.nome} (cód. ${p.codigo}) que vi no site:\n${linkProduto(p.codigo)}`;
 
   return (
     <div className="mx-auto max-w-7xl px-4 pt-6">

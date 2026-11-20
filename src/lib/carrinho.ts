@@ -2,6 +2,7 @@
 
 import { useSyncExternalStore } from "react";
 import { formatarPreco, nomeBonito } from "./formatar";
+import { linkPedido } from "./links";
 
 // Carrinho do site: so no navegador (localStorage), sem conta, sem pagamento.
 // O cliente junta os produtos e manda a lista inteira para a loja pelo WhatsApp,
@@ -132,7 +133,9 @@ export const carrinho = {
 };
 
 // Mensagem que vai para o WhatsApp. Uma linha por produto com o codigo, para a
-// equipe (e a Bianca) acharem cada item no sistema sem perguntar nada.
+// equipe (e a Bianca) acharem cada item no sistema sem perguntar nada. No fim
+// vai o link do pedido (/pedido): o WhatsApp mostra a previa com as fotos de
+// todos os itens juntas, e tocando nele a loja ve a lista com foto de cada um.
 export function mensagemPedido(itens: ItemCarrinho[]) {
   const linhas = itens.map(
     (i, n) =>
@@ -145,5 +148,7 @@ export function mensagemPedido(itens: ItemCarrinho[]) {
     "",
     `Total estimado: ${formatarPreco(totalValor(itens))}`,
     "Pode confirmar os preços e a disponibilidade?",
+    "",
+    `Fotos dos produtos: ${linkPedido(itens)}`,
   ].join("\n");
 }
